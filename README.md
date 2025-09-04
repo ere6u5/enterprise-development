@@ -111,6 +111,7 @@ dotnet test
 dotnet test CarRental.Tests/CarRental.Tests.csproj
 ```
 
+
 ## Технологии
 
 - **.NET 8.0** - платформа разработки
