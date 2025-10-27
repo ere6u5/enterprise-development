@@ -1,0 +1,32 @@
+﻿namespace CarRental.Models;
+
+/// <summary>
+/// Конкретный автомобиль в парке проката
+/// </summary>
+public class Car
+{
+    /// <summary>
+    /// Уникальный идентификатор автомобиля
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
+    /// Государственный номерной знак
+    /// </summary>
+    public string LicensePlate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Цвет автомобиля
+    /// </summary>
+    public string Color { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Идентификатор поколения модели
+    /// </summary>
+    public int ModelGenerationId { get; set; }
+
+    /// <summary>
+    /// Поколение модели автомобиля
+    /// </summary>
+    public ModelGeneration ModelGeneration { get; set; } = null!;
+}
