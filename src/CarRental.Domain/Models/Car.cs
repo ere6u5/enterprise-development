@@ -29,4 +29,14 @@ public class Car
     /// Поколение модели автомобиля
     /// </summary>
     public required ModelGeneration ModelGeneration { get; set; } = null!;
+
+    public Car() { }
+
+    public Car(string licensePlate, string color, ModelGeneration modelGeneration)
+    {
+        LicensePlate = licensePlate;
+        Color = color;
+        ModelGeneration = modelGeneration;
+        ModelGenerationId = modelGeneration.Id;
+    }
 }

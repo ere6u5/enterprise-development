@@ -2,8 +2,7 @@
 using CarRental.Domain.Data;
 using CarRental.Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Generic;using System.Linq;
 
 /// <summary>
 /// Тесты LINQ запросов для системы проката автомобилей
