@@ -13,22 +13,22 @@ public class Rental
     /// <summary>
     /// Дата и время начала аренды
     /// </summary>
-    public DateTime RentalDate { get; set; }
+    public required DateTime RentalDate { get; set; }
 
     /// <summary>
     /// Продолжительность аренды в часах
     /// </summary>
-    public int RentalHours { get; set; }
+    public required int RentalHours { get; set; }
 
     /// <summary>
     /// Идентификатор арендованного автомобиля
     /// </summary>
-    public int CarId { get; set; }
+    public required int CarId { get; set; }
 
     /// <summary>
     /// Арендованный автомобиль
     /// </summary>
-    public Car Car { get; set; } = null!;
+    public required Car Car { get; set; } = null!;
 
     /// <summary>
     /// Идентификатор клиента
@@ -38,5 +38,5 @@ public class Rental
     /// <summary>
     /// Клиент, взявший автомобиль в аренду
     /// </summary>
-    public Client Client { get; set; } = null!;
+    public required Client Client { get; set; } = null!;
 }

@@ -8,27 +8,27 @@ public class ModelGeneration
     /// <summary>
     /// Уникальный идентификатор поколения
     /// </summary>
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     /// <summary>
     /// Год выпуска поколения
     /// </summary>
-    public int Year { get; set; }
+    public required int Year { get; set; }
 
     /// <summary>
     /// Объем двигателя в литрах
     /// </summary>
-    public double EngineVolume { get; set; }
+    public required double EngineVolume { get; set; }
 
     /// <summary>
     /// Тип коробки передач
     /// </summary>
-    public string Transmission { get; set; } = string.Empty;
+    public required string Transmission { get; set; } = string.Empty;
 
     /// <summary>
     /// Стоимость аренды в час
     /// </summary>
-    public decimal RentalPricePerHour { get; set; }
+    public required decimal RentalPricePerHour { get; set; }
 
     /// <summary>
     /// Идентификатор модели автомобиля
@@ -38,5 +38,5 @@ public class ModelGeneration
     /// <summary>
     /// Модель автомобиля
     /// </summary>
-    public CarModel Model { get; set; } = null!;
+    public required CarModel Model { get; set; } = null!;
 }

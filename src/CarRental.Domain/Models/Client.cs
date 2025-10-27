@@ -13,15 +13,15 @@ public class Client
     /// <summary>
     /// Номер водительского удостоверения
     /// </summary>
-    public string LicenseNumber { get; set; } = string.Empty;
+    public required string LicenseNumber { get; set; } = string.Empty;
 
     /// <summary>
     /// Полное имя клиента
     /// </summary>
-    public string FullName { get; set; } = string.Empty;
+    public required string FullName { get; set; } = string.Empty;
 
     /// <summary>
     /// Дата рождения клиента
     /// </summary>
-    public DateTime BirthDate { get; set; }
+    public required DateTime BirthDate { get; set; }
 }

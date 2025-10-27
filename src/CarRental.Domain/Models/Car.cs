@@ -13,12 +13,12 @@ public class Car
     /// <summary>
     /// Государственный номерной знак
     /// </summary>
-    public string LicensePlate { get; set; } = string.Empty;
+    public required string LicensePlate { get; set; } = string.Empty;
 
     /// <summary>
     /// Цвет автомобиля
     /// </summary>
-    public string Color { get; set; } = string.Empty;
+    public required string Color { get; set; } = string.Empty;
 
     /// <summary>
     /// Идентификатор поколения модели
@@ -28,5 +28,5 @@ public class Car
     /// <summary>
     /// Поколение модели автомобиля
     /// </summary>
-    public ModelGeneration ModelGeneration { get; set; } = null!;
+    public required ModelGeneration ModelGeneration { get; set; } = null!;
 }
