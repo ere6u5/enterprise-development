@@ -1,14 +1,13 @@
 ﻿using CarRental.Data;
+using CarRental.Data.Services;
 using CarRental.Domain.Data;
 using CarRental.Domain.Models;
 
-/// <summary>
-/// Точка входа приложения CarRental API
-/// </summary>
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// Register repositories
 var rentalRepository = new RentalRepository();
 var carRepository = new CarRepository();
 var clientRepository = new ClientRepository();
@@ -20,33 +19,27 @@ builder.Services.AddSingleton<IRentalRepository>(rentalRepository);
 builder.Services.AddSingleton<ICarRepository>(carRepository);
 builder.Services.AddSingleton<IClientRepository>(clientRepository);
 
+// Register analytics service
+builder.Services.AddSingleton<AnalyticsService>();
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-
 InitializeTestData(carRepository, clientRepository, rentalRepository);
 
 app.Run();
 
-/// <summary>
-/// Инициализировать тестовые данные в репозиториях
-/// </summary>
-/// <param name="carRepo">Репозиторий автомобилей</param>
-/// <param name="clientRepo">Репозиторий клиентов</param>
-/// <param name="rentalRepo">Репозиторий аренд</param>
 void InitializeTestData(ICarRepository carRepo, IClientRepository clientRepo, IRentalRepository rentalRepo)
 {
-    // Используем тестовые данные из первой лабораторной
     var models = TestData.GetCarModels();
     var generations = TestData.GetModelGenerations(models);
     var cars = TestData.GetCars(generations);
     var clients = TestData.GetClients();
     var rentals = TestData.GetRentals(cars, clients);
 
-    // Добавляем данные в репозитории
     foreach (var car in cars)
     {
         carRepo.Add(car);
