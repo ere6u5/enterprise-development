@@ -1,8 +1,8 @@
-﻿using CarRental.Models;
+﻿using CarRental.Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace CarRental.Data;
+namespace CarRental.Domain.Data;
 
 /// <summary>
 /// Генератор тестовых данных для проката автомобилей

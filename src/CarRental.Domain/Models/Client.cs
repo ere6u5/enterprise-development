@@ -1,4 +1,4 @@
-﻿namespace CarRental.Models;
+﻿namespace CarRental.Domain.Models;
 
 /// <summary>
 /// Клиент службы проката автомобилей
