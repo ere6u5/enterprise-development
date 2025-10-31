@@ -137,7 +137,7 @@ public class CarRentalTests
     public void GetTop5ClientsByRentalSum()
     {
         const int expectedCount = 5;
-        const string expectedTopClientName = "Петров Петр Петрович"; // Исправлено согласно актуальным данным
+        const string expectedTopClientName = "Петров Петр Петрович";
 
         var topClients = _rentals
             .GroupBy(r => r.Client)
