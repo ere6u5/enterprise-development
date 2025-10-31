@@ -13,12 +13,12 @@ public class CarModel
     /// <summary>
     /// Название модели автомобиля
     /// </summary>
-    public required string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
 
     /// <summary>
     /// Тип привода (FWD, AWD, RWD)
     /// </summary>
-    public required string DriveType { get; set; } = string.Empty;
+    public required string DriveType { get; set; }
 
     /// <summary>
     /// Количество посадочных мест
@@ -28,10 +28,10 @@ public class CarModel
     /// <summary>
     /// Тип кузова (Sedan, SUV, Hatchback)
     /// </summary>
-    public required string BodyType { get; set; } = string.Empty;
+    public required string BodyType { get; set; }
 
     /// <summary>
     /// Класс автомобиля (Economy, Business, Premium)
     /// </summary>
-    public required string Class { get; set; } = string.Empty;
+    public required string Class { get; set; }
 }

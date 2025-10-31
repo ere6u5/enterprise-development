@@ -28,7 +28,7 @@ public class Rental
     /// <summary>
     /// Арендованный автомобиль
     /// </summary>
-    public required Car Car { get; set; } = null!;
+    public required Car Car { get; set; }
 
     /// <summary>
     /// Идентификатор клиента
@@ -38,5 +38,5 @@ public class Rental
     /// <summary>
     /// Клиент, взявший автомобиль в аренду
     /// </summary>
-    public required Client Client { get; set; } = null!;
+    public required Client Client { get; set; }
 }

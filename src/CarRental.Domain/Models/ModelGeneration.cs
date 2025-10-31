@@ -23,7 +23,7 @@ public class ModelGeneration
     /// <summary>
     /// Тип коробки передач
     /// </summary>
-    public required string Transmission { get; set; } = string.Empty;
+    public required string Transmission { get; set; }
 
     /// <summary>
     /// Стоимость аренды в час
@@ -38,5 +38,5 @@ public class ModelGeneration
     /// <summary>
     /// Модель автомобиля
     /// </summary>
-    public required CarModel Model { get; set; } = null!;
+    public required CarModel Model { get; set; }
 }
