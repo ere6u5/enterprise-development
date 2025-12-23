@@ -30,9 +30,9 @@ public class ModelGenerationResponseDto
     public required TransmissionType TransmissionType { get; set; }
     
     /// <summary>
-    /// Идентификатор модели
+    /// Модель автомобиля
     /// </summary>
-    public required int ModelId { get; set; }
+    public required CarModelResponseDto Model { get; set; }
     
     /// <summary>
     /// Стоимость аренды в час

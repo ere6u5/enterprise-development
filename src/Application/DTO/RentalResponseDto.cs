@@ -11,14 +11,14 @@ public class RentalResponseDto
     public required int Id { get; set; }
     
     /// <summary>
-    /// Идентификатор автомобиля
+    /// Автомобиль
     /// </summary>
-    public required int CarId { get; set; }
+    public required CarResponseDto Car { get; set; }
     
     /// <summary>
-    /// Идентификатор клиента
+    /// Клиент
     /// </summary>
-    public required int ClientId { get; set; }
+    public required ClientResponseDto Client { get; set; }
     
     /// <summary>
     /// Время выдачи автомобиля
