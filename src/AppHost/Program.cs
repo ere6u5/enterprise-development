@@ -16,4 +16,9 @@ var api = builder.AddProject<Projects.Api>("api")
     .WithReference(nats)
     .WaitFor(mysql);
 
+// Добавляем генератор
+var generator = builder.AddProject<Projects.Generator>("generator")
+    .WithReference(api)
+    .WaitFor(api);
+
 builder.Build().Run();

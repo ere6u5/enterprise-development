@@ -12,12 +12,14 @@ namespace Application.Service;
 /// <param name="clientRepository">Репозиторий клиентов</param>
 /// <param name="carModelRepository">Репозиторий моделей автомобилей</param>
 /// <param name="modelGenerationRepository">Репозиторий поколений моделей</param>
+/// <param name="natsService">Сервис для работы с NATS</param>
 public class RentalService(
     IRepository<Rental> rentalRepository,
     IRepository<Car> carRepository,
     IRepository<Client> clientRepository,
     IRepository<CarModel> carModelRepository,
-    IRepository<ModelGeneration> modelGenerationRepository) : IRentalService
+    IRepository<ModelGeneration> modelGenerationRepository,
+    INatsService natsService) : IRentalService
 {
     /// <summary>
     /// Маппинг DTO в доменную модель
@@ -88,9 +90,19 @@ public class RentalService(
     public async Task<int> CreateRentalAsync(RentalDto entity)
     {
         var rental = await MapToDomainAsync(entity);
-        return await rentalRepository.CreateAsync(rental);
+        var rentalId = await rentalRepository.CreateAsync(rental);
+        
+        // Публикуем событие в NATS
+        await natsService.PublishRentalCreatedAsync(
+            rentalId, 
+            entity.CarId, 
+            entity.ClientId, 
+            entity.RentalStart, 
+            entity.RentalHours);
+        
+        return rentalId;
     }
-    
+
     /// <inheritdoc />
     public async Task<List<RentalResponseDto>> GetAllRentalsAsync()
     {

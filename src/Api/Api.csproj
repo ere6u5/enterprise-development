@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure.Db\Infrastructure.Db.csproj" />
+    <ProjectReference Include="..\Infrastructure.Nats\Infrastructure.Nats.csproj" />
   </ItemGroup>
 
 </Project>

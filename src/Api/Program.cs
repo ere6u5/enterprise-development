@@ -3,6 +3,7 @@ using Application.Service;
 using Infrastructure.Db.Repositories;
 using Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Nats;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,14 +32,38 @@ builder.Services.AddScoped<IRepository<Domain.Entities.Car>, DbCarRepository>();
 builder.Services.AddScoped<IRepository<Domain.Entities.Client>, DbClientRepository>();
 builder.Services.AddScoped<IRepository<Domain.Entities.Rental>, DbRentalRepository>();
 
+builder.Services.AddScoped<INatsService>(provider =>
+{
+    var logger = provider.GetRequiredService<ILogger<NatsService>>();
+    var natsUrl = builder.Configuration["Nats:Url"] ?? "nats://localhost:4222";
+    return new NatsService(natsUrl, logger);
+});
+
 // Регистрируем сервисы
 builder.Services.AddScoped<ICarModelService, CarModelService>();
 builder.Services.AddScoped<IModelGenerationService, ModelGenerationService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<IRentalService>(provider =>
+{
+    var rentalRepository = provider.GetRequiredService<IRepository<Domain.Entities.Rental>>();
+    var carRepository = provider.GetRequiredService<IRepository<Domain.Entities.Car>>();
+    var clientRepository = provider.GetRequiredService<IRepository<Domain.Entities.Client>>();
+    var carModelRepository = provider.GetRequiredService<IRepository<Domain.Entities.CarModel>>();
+    var modelGenerationRepository = provider.GetRequiredService<IRepository<Domain.Entities.ModelGeneration>>();
+    var natsService = provider.GetRequiredService<INatsService>();
+    
+    return new RentalService(
+        rentalRepository,
+        carRepository,
+        clientRepository,
+        carModelRepository,
+        modelGenerationRepository,
+        natsService);
+});
 
 builder.Services.AddControllers();
+//builder.Services.AddGrpc();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -54,5 +79,6 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
+//app.MapGrpcService<Api.Grpc.RentalGeneratorService>();
 
 app.Run();

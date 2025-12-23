@@ -46,11 +46,13 @@ public class CarRentalRepoFixture
         var carRepository = new InMemoryCarRepository(seeder);
         var clientRepository = new InMemoryClientRepository(seeder);
         var rentalRepository = new InMemoryRentalRepository(seeder);
+        var natsService = new MockNatsService();
 
         CarModelService = new CarModelService(carModelRepository);
         ModelGenerationService = new ModelGenerationService(modelGenerationRepository, carModelRepository);
         CarService = new CarService(carRepository, modelGenerationRepository);
         ClientService = new ClientService(clientRepository);
-        RentalService = new RentalService(rentalRepository, carRepository, clientRepository, carModelRepository, modelGenerationRepository);
+        RentalService = new RentalService(rentalRepository, carRepository, clientRepository, 
+            carModelRepository, modelGenerationRepository, natsService);
     }
 }

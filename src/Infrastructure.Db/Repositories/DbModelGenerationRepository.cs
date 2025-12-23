@@ -4,15 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Db.Repositories;
 
+/// <summary>
+/// Репозиторий для работы с поколениями моделей в базе данных
+/// </summary>
 public class DbModelGenerationRepository : IRepository<ModelGeneration>
 {
     private readonly CarRentalDbContext _context;
 
+    /// <summary>
+    /// Конструктор репозитория поколений моделей
+    /// </summary>
     public DbModelGenerationRepository(CarRentalDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Создание нового поколения модели
+    /// </summary>
     public async Task<int> CreateAsync(ModelGeneration entity)
     {
         _context.ModelGenerations.Add(entity);
@@ -20,6 +29,9 @@ public class DbModelGenerationRepository : IRepository<ModelGeneration>
         return entity.Id;
     }
 
+    /// <summary>
+    /// Получение всех поколений моделей с включением связанных данных
+    /// </summary>
     public async Task<List<ModelGeneration>> ReadAsync()
     {
         return await _context.ModelGenerations
@@ -27,6 +39,9 @@ public class DbModelGenerationRepository : IRepository<ModelGeneration>
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Получение поколения модели по идентификатору
+    /// </summary>
     public async Task<ModelGeneration?> ReadAsync(int id)
     {
         return await _context.ModelGenerations
@@ -34,6 +49,9 @@ public class DbModelGenerationRepository : IRepository<ModelGeneration>
             .FirstOrDefaultAsync(mg => mg.Id == id);
     }
 
+    /// <summary>
+    /// Обновление данных поколения модели
+    /// </summary>
     public async Task<ModelGeneration?> UpdateAsync(int id, ModelGeneration entity)
     {
         var existing = await _context.ModelGenerations.FindAsync(id);
@@ -44,6 +62,9 @@ public class DbModelGenerationRepository : IRepository<ModelGeneration>
         return existing;
     }
 
+    /// <summary>
+    /// Удаление поколения модели по идентификатору
+    /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await _context.ModelGenerations.FindAsync(id);

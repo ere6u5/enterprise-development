@@ -4,15 +4,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Db.Repositories;
 
+/// <summary>
+/// Репозиторий для работы с автомобилями в базе данных
+/// </summary>
 public class DbCarRepository : IRepository<Car>
 {
     private readonly CarRentalDbContext _context;
 
+    /// <summary>
+    /// Конструктор репозитория автомобилей
+    /// </summary>
+    /// <param name="context">Контекст базы данных</param>
     public DbCarRepository(CarRentalDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Создание нового автомобиля
+    /// </summary>
     public async Task<int> CreateAsync(Car entity)
     {
         _context.Cars.Add(entity);
@@ -20,6 +30,9 @@ public class DbCarRepository : IRepository<Car>
         return entity.Id;
     }
 
+    /// <summary>
+    /// Получение всех автомобилей с включением связанных данных
+    /// </summary>
     public async Task<List<Car>> ReadAsync()
     {
         return await _context.Cars
@@ -28,6 +41,9 @@ public class DbCarRepository : IRepository<Car>
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Получение автомобиля по идентификатору с включением связанных данных
+    /// </summary>
     public async Task<Car?> ReadAsync(int id)
     {
         return await _context.Cars
@@ -36,6 +52,9 @@ public class DbCarRepository : IRepository<Car>
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
+    /// <summary>
+    /// Обновление данных автомобиля
+    /// </summary>
     public async Task<Car?> UpdateAsync(int id, Car entity)
     {
         var existing = await _context.Cars.FindAsync(id);
@@ -46,6 +65,9 @@ public class DbCarRepository : IRepository<Car>
         return existing;
     }
 
+    /// <summary>
+    /// Удаление автомобиля по идентификатору
+    /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await _context.Cars.FindAsync(id);
