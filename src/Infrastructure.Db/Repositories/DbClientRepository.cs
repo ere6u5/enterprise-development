@@ -1,0 +1,52 @@
+using Domain.Entities;
+using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Db.Repositories;
+
+public class DbClientRepository : IRepository<Client>
+{
+    private readonly CarRentalDbContext _context;
+
+    public DbClientRepository(CarRentalDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<int> CreateAsync(Client entity)
+    {
+        _context.Clients.Add(entity);
+        await _context.SaveChangesAsync();
+        return entity.Id;
+    }
+
+    public async Task<List<Client>> ReadAsync()
+    {
+        return await _context.Clients.ToListAsync();
+    }
+
+    public async Task<Client?> ReadAsync(int id)
+    {
+        return await _context.Clients.FindAsync(id);
+    }
+
+    public async Task<Client?> UpdateAsync(int id, Client entity)
+    {
+        var existing = await _context.Clients.FindAsync(id);
+        if (existing == null) return null;
+
+        _context.Entry(existing).CurrentValues.SetValues(entity);
+        await _context.SaveChangesAsync();
+        return existing;
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var entity = await _context.Clients.FindAsync(id);
+        if (entity == null) return false;
+
+        _context.Clients.Remove(entity);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+}
