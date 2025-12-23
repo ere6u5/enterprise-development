@@ -5,84 +5,84 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 /// <summary>
-/// Controller for model generations
+/// Контроллер для управления поколениями моделей
 /// </summary>
-/// <param name="service">Model generation service instance</param>
-/// <param name="logger">Logger instance</param>
+/// <param name="service">Сервис поколений моделей</param>
+/// <param name="logger">Логгер</param>
 [ApiController]
 [Route("[controller]")]
 public class ModelGenerationController(IModelGenerationService service, ILogger<ModelGenerationController> logger) : ControllerBase
 {
     /// <summary>
-    /// Get all model generations
+    /// Получить все поколения моделей
     /// </summary>
-    /// <returns>List of model generations</returns>
+    /// <returns>Список поколений моделей</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ModelGenerationResponseDto>>> Get()
     {
-        logger.LogInformation("Getting all model generations");
+        logger.LogInformation("Получение всех поколений моделей");
         var modelGenerations = await service.GetAllModelGenerationsAsync();
         return Ok(modelGenerations);
     }
 
     /// <summary>
-    /// Get model generation by ID
+    /// Получить поколение модели по ID
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <returns>Model generation</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <returns>Поколение модели</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ModelGenerationResponseDto>> GetModelGeneration(int id)
     {
-        logger.LogInformation("Getting model generation with ID {id}", id);
+        logger.LogInformation("Получение поколения модели с ID {id}", id);
         var modelGeneration = await service.GetModelGenerationAsync(id);
         if (modelGeneration != null) return Ok(modelGeneration);
         return NotFound();
     }
 
     /// <summary>
-    /// Create model generation
+    /// Создать поколение модели
     /// </summary>
-    /// <param name="modelGeneration">Model generation data</param>
-    /// <returns>Created model generation ID</returns>
+    /// <param name="modelGeneration">Данные поколения модели</param>
+    /// <returns>ID созданного поколения модели</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<int>> CreateModelGeneration([FromBody] ModelGenerationDto modelGeneration)
     {
-        logger.LogInformation("Creating model generation for model ID {ModelId}", modelGeneration.ModelId);
+        logger.LogInformation("Создание поколения модели для модели ID {ModelId}", modelGeneration.ModelId);
         var id = await service.CreateModelGenerationAsync(modelGeneration);
         return Created($"/modelgeneration/{id}", id);
     }
 
     /// <summary>
-    /// Update model generation
+    /// Обновить поколение модели
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <param name="entity">Updated model generation data</param>
-    /// <returns>Updated model generation</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <param name="entity">Обновленные данные поколения модели</param>
+    /// <returns>Обновленное поколение модели</returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ModelGenerationDto?>> UpdateModelGeneration(int id, [FromBody] ModelGenerationDto entity)
     {
-        logger.LogInformation("Updating model generation with ID {id}", id);
+        logger.LogInformation("Обновление поколения модели с ID {id}", id);
         var modelGeneration = await service.UpdateModelGenerationAsync(id, entity);
         if (modelGeneration != null) return Ok(modelGeneration);
         return NotFound();
     }
 
     /// <summary>
-    /// Delete model generation
+    /// Удалить поколение модели
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <returns>No content</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <returns>Результат без содержимого</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteModelGeneration(int id)
     {
-        logger.LogInformation("Deleting model generation with ID {id}", id);
+        logger.LogInformation("Удаление поколения модели с ID {id}", id);
         await service.DeleteModelGenerationAsync(id);
         return NoContent();
     }

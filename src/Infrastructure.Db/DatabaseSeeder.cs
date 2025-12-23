@@ -1,5 +1,3 @@
-using Domain.Entities;
-using Domain.Enums;
 using Domain.Seeder;
 
 namespace Infrastructure.Db;
