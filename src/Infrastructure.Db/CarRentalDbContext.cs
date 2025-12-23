@@ -20,26 +20,24 @@ public class CarRentalDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // CarModel configuration
         modelBuilder.Entity<CarModel>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
-            entity.Property(e => e.DriveType).IsRequired();
+            entity.Property(e => e.DriveType).IsRequired().HasConversion<string>();
             entity.Property(e => e.SeatCount).IsRequired();
-            entity.Property(e => e.BodyType).IsRequired();
-            entity.Property(e => e.CarClass).IsRequired();
+            entity.Property(e => e.BodyType).IsRequired().HasConversion<string>();
+            entity.Property(e => e.CarClass).IsRequired().HasConversion<string>();
             
             entity.HasIndex(e => e.Name).IsUnique();
         });
 
-        // ModelGeneration configuration
         modelBuilder.Entity<ModelGeneration>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Year).IsRequired();
             entity.Property(e => e.EngineVolume).IsRequired().HasPrecision(3, 1);
-            entity.Property(e => e.TransmissionType).IsRequired();
+            entity.Property(e => e.TransmissionType).IsRequired().HasConversion<string>();
             entity.Property(e => e.RentalCostPerHour).IsRequired().HasPrecision(10, 2);
             
             entity.HasOne(e => e.Model)
@@ -48,7 +46,6 @@ public class CarRentalDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // Car configuration
         modelBuilder.Entity<Car>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -63,7 +60,6 @@ public class CarRentalDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // Client configuration
         modelBuilder.Entity<Client>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -74,7 +70,6 @@ public class CarRentalDbContext : DbContext
             entity.HasIndex(e => e.DriverLicenseNumber).IsUnique();
         });
 
-        // Rental configuration
         modelBuilder.Entity<Rental>(entity =>
         {
             entity.HasKey(e => e.Id);

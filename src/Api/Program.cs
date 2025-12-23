@@ -1,10 +1,12 @@
 using Domain.Repositories;
 using Application.Service;
-using Infrastructure.InMemory.Repositories;
-using Domain.Seeder;
+using Infrastructure.Db.Repositories;
+using Infrastructure.Db;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Настройка CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -15,14 +17,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-var seeder = new DataSeeder();
+// Получаем строку подключения из конфигурации
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddScoped<IRepository<Domain.Entities.CarModel>, InMemoryCarModelRepository>(_ => new InMemoryCarModelRepository(seeder));
-builder.Services.AddScoped<IRepository<Domain.Entities.ModelGeneration>, InMemoryModelGenerationRepository>(_ => new InMemoryModelGenerationRepository(seeder));
-builder.Services.AddScoped<IRepository<Domain.Entities.Car>, InMemoryCarRepository>(_ => new InMemoryCarRepository(seeder));
-builder.Services.AddScoped<IRepository<Domain.Entities.Client>, InMemoryClientRepository>(_ => new InMemoryClientRepository(seeder));
-builder.Services.AddScoped<IRepository<Domain.Entities.Rental>, InMemoryRentalRepository>(_ => new InMemoryRentalRepository(seeder));
+// Регистрируем DbContext с MySQL
+builder.Services.AddDbContext<CarRentalDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+// Регистрируем Db-репозитории
+builder.Services.AddScoped<IRepository<Domain.Entities.CarModel>, DbCarModelRepository>();
+builder.Services.AddScoped<IRepository<Domain.Entities.ModelGeneration>, DbModelGenerationRepository>();
+builder.Services.AddScoped<IRepository<Domain.Entities.Car>, DbCarRepository>();
+builder.Services.AddScoped<IRepository<Domain.Entities.Client>, DbClientRepository>();
+builder.Services.AddScoped<IRepository<Domain.Entities.Rental>, DbRentalRepository>();
+
+// Регистрируем сервисы
 builder.Services.AddScoped<ICarModelService, CarModelService>();
 builder.Services.AddScoped<IModelGenerationService, ModelGenerationService>();
 builder.Services.AddScoped<ICarService, CarService>();
@@ -42,6 +51,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 
