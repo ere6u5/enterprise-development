@@ -11,9 +11,9 @@ public class CarResponseDto
     public required int Id { get; set; }
     
     /// <summary>
-    /// Идентификатор поколения модели
+    /// Поколение модели
     /// </summary>
-    public required int ModelGenerationId { get; set; }
+    public required ModelGenerationResponseDto ModelGeneration { get; set; }
     
     /// <summary>
     /// Государственный номер

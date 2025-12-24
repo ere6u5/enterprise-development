@@ -16,9 +16,9 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
     /// </summary>
     private async Task<Car> MapToDomainAsync(CarDto entity)
     {
-        var modelGeneration = await modelGenerationRepository.ReadAsync(entity.ModelGenerationId) 
+        var modelGeneration = await modelGenerationRepository.ReadAsync(entity.ModelGenerationId)
             ?? throw new ArgumentException($"Model generation with id {entity.ModelGenerationId} not found");
-        
+
         return new Car
         {
             Id = 0,
@@ -28,7 +28,7 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
             Color = entity.Color
         };
     }
-    
+
     /// <summary>
     /// Маппинг доменной модели в Dto
     /// </summary>
@@ -41,7 +41,7 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
             Color = car.Color
         };
     }
-    
+
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
@@ -50,33 +50,49 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
         return new CarResponseDto
         {
             Id = car.Id,
-            ModelGenerationId = car.ModelGenerationId,
+            ModelGeneration = new ModelGenerationResponseDto
+            {
+                Id = car.ModelGeneration.Id,
+                Year = car.ModelGeneration.Year,
+                EngineVolume = car.ModelGeneration.EngineVolume,
+                TransmissionType = car.ModelGeneration.TransmissionType,
+                Model = new CarModelResponseDto
+                {
+                    Id = car.ModelGeneration.Model.Id,
+                    Name = car.ModelGeneration.Model.Name,
+                    DriveType = car.ModelGeneration.Model.DriveType,
+                    SeatCount = car.ModelGeneration.Model.SeatCount,
+                    BodyType = car.ModelGeneration.Model.BodyType,
+                    CarClass = car.ModelGeneration.Model.CarClass
+                },
+                RentalCostPerHour = car.ModelGeneration.RentalCostPerHour
+            },
             LicensePlate = car.LicensePlate,
             Color = car.Color
         };
     }
-    
+
     /// <inheritdoc />
     public async Task<int> CreateCarAsync(CarDto entity)
     {
         var car = await MapToDomainAsync(entity);
         return await carRepository.CreateAsync(car);
     }
-    
+
     /// <inheritdoc />
     public async Task<List<CarResponseDto>> GetAllCarsAsync()
     {
         var cars = await carRepository.ReadAsync();
         return [.. cars.Select(MapToResponseDto)];
     }
-    
+
     /// <inheritdoc />
     public async Task<CarResponseDto?> GetCarAsync(int id)
     {
         var car = await carRepository.ReadAsync(id);
         return car != null ? MapToResponseDto(car) : null;
     }
-    
+
     /// <inheritdoc />
     public async Task<CarDto?> UpdateCarAsync(int id, CarDto entity)
     {
@@ -84,13 +100,13 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
         var updatedCar = await carRepository.UpdateAsync(id, carToUpdate);
         return updatedCar != null ? MapToDto(updatedCar) : null;
     }
-    
+
     /// <inheritdoc />
     public async Task<bool> DeleteCarAsync(int id)
     {
         return await carRepository.DeleteAsync(id);
     }
-    
+
     /// <inheritdoc />
     public async Task<List<Car>> GetAllCarsWithIdAsync()
     {

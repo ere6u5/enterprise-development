@@ -22,15 +22,15 @@ public class RentalService(
     INatsService natsService) : IRentalService
 {
     /// <summary>
-    /// Маппинг Dto в доменную модель
+    /// Маппинг DTO в доменную модель
     /// </summary>
     private async Task<Rental> MapToDomainAsync(RentalDto entity)
     {
-        var car = await carRepository.ReadAsync(entity.CarId) 
+        var car = await carRepository.ReadAsync(entity.CarId)
             ?? throw new ArgumentException($"Car with id {entity.CarId} not found");
-        var client = await clientRepository.ReadAsync(entity.ClientId) 
+        var client = await clientRepository.ReadAsync(entity.ClientId)
             ?? throw new ArgumentException($"Client with id {entity.ClientId} not found");
-        
+
         return new Rental
         {
             Id = 0,
@@ -42,22 +42,22 @@ public class RentalService(
             RentalHours = entity.RentalHours
         };
     }
-    
+
     /// <summary>
-    /// Маппинг доменной модели в Response Dto
+    /// Маппинг доменной модели в Response DTO
     /// </summary>
     private static RentalResponseDto MapToResponseDto(Rental rental)
     {
         return new RentalResponseDto
         {
             Id = rental.Id,
-            CarId = rental.CarId,
-            ClientId = rental.ClientId,
+            Car = MapToCarResponseDto(rental.Car),
+            Client = MapToClientResponseDto(rental.Client),
             RentalStart = rental.RentalStart,
             RentalHours = rental.RentalHours
         };
     }
-    
+
     /// <summary>
     /// Маппинг автомобиля в CarResponseDto
     /// </summary>
@@ -66,12 +66,28 @@ public class RentalService(
         return new CarResponseDto
         {
             Id = car.Id,
-            ModelGenerationId = car.ModelGenerationId,
+            ModelGeneration = new ModelGenerationResponseDto
+            {
+                Id = car.ModelGeneration.Id,
+                Year = car.ModelGeneration.Year,
+                EngineVolume = car.ModelGeneration.EngineVolume,
+                TransmissionType = car.ModelGeneration.TransmissionType,
+                Model = new CarModelResponseDto
+                {
+                    Id = car.ModelGeneration.Model.Id,
+                    Name = car.ModelGeneration.Model.Name,
+                    DriveType = car.ModelGeneration.Model.DriveType,
+                    SeatCount = car.ModelGeneration.Model.SeatCount,
+                    BodyType = car.ModelGeneration.Model.BodyType,
+                    CarClass = car.ModelGeneration.Model.CarClass
+                },
+                RentalCostPerHour = car.ModelGeneration.RentalCostPerHour
+            },
             LicensePlate = car.LicensePlate,
             Color = car.Color
         };
     }
-    
+
     /// <summary>
     /// Маппинг клиента в ClientResponseDto
     /// </summary>
@@ -85,21 +101,21 @@ public class RentalService(
             BirthDate = client.BirthDate
         };
     }
-    
+
     /// <inheritdoc />
     public async Task<int> CreateRentalAsync(RentalDto entity)
     {
         var rental = await MapToDomainAsync(entity);
         var rentalId = await rentalRepository.CreateAsync(rental);
-        
+
         // Публикуем событие в NATS
         await natsService.PublishRentalCreatedAsync(
-            rentalId, 
-            entity.CarId, 
-            entity.ClientId, 
-            entity.RentalStart, 
+            rentalId,
+            entity.CarId,
+            entity.ClientId,
+            entity.RentalStart,
             entity.RentalHours);
-        
+
         return rentalId;
     }
 
@@ -109,14 +125,14 @@ public class RentalService(
         var rentals = await rentalRepository.ReadAsync();
         return [.. rentals.Select(MapToResponseDto)];
     }
-    
+
     /// <inheritdoc />
     public async Task<RentalResponseDto?> GetRentalAsync(int id)
     {
         var rental = await rentalRepository.ReadAsync(id);
         return rental != null ? MapToResponseDto(rental) : null;
     }
-    
+
     /// <inheritdoc />
     public async Task<RentalResponseDto?> UpdateRentalAsync(int id, RentalDto entity)
     {
@@ -124,19 +140,19 @@ public class RentalService(
         var updatedRental = await rentalRepository.UpdateAsync(id, rentalToUpdate);
         return updatedRental != null ? MapToResponseDto(updatedRental) : null;
     }
-    
+
     /// <inheritdoc />
     public async Task<bool> DeleteRentalAsync(int id)
     {
         return await rentalRepository.DeleteAsync(id);
     }
-    
+
     /// <inheritdoc />
     public async Task<List<ClientResponseDto>> GetClientsByModelAsync(int modelId)
     {
         var rentals = await rentalRepository.ReadAsync();
         var carModels = await carModelRepository.ReadAsync();
-        
+
         return [.. rentals
             .Where(r => r.Car.ModelGeneration.Model.Id == modelId)
             .Select(r => r.Client)
@@ -144,26 +160,26 @@ public class RentalService(
             .OrderBy(c => c.FullName)
             .Select(MapToClientResponseDto)];
     }
-    
+
     /// <inheritdoc />
     public async Task<List<CarResponseDto>> GetRentedCarsAsync()
     {
         var rentals = await rentalRepository.ReadAsync();
         var currentTime = DateTime.Now;
-        
+
         return [.. rentals
             .Where(r => r.RentalStart <= currentTime && r.RentalStart.AddHours(r.RentalHours) >= currentTime)
             .Select(r => r.Car)
             .Distinct()
             .Select(MapToCarResponseDto)];
     }
-    
+
     /// <inheritdoc />
     public async Task<List<CarRentalCountDto>> GetTop5MostRentedCarsAsync()
     {
         var rentals = await rentalRepository.ReadAsync();
         var cars = await carRepository.ReadAsync();
-        
+
         var result = rentals
             .GroupBy(r => r.CarId)
             .Select(g => new CarRentalCountDto
@@ -174,16 +190,15 @@ public class RentalService(
             .OrderByDescending(x => x.RentalCount)
             .Take(5)
             .ToList();
-        
+
         return result;
     }
-    
     /// <inheritdoc />
     public async Task<List<CarRentalCountDto>> GetRentalCountPerCarAsync()
     {
         var rentals = await rentalRepository.ReadAsync();
         var cars = await carRepository.ReadAsync();
-        
+
         var result = cars
             .Select(car => new CarRentalCountDto
             {
@@ -191,24 +206,24 @@ public class RentalService(
                 RentalCount = rentals.Count(r => r.CarId == car.Id)
             })
             .ToList();
-        
+
         return result;
     }
-    
+
     /// <inheritdoc />
     public async Task<List<ClientRentalSumDto>> GetTop5ClientsByRentalSumAsync()
     {
         var rentals = await rentalRepository.ReadAsync();
         var clients = await clientRepository.ReadAsync();
         var modelGenerations = await modelGenerationRepository.ReadAsync();
-        
+
         var result = clients
             .Select(client => new ClientRentalSumDto
             {
                 Client = MapToClientResponseDto(client),
                 TotalRentalCost = rentals
                     .Where(r => r.ClientId == client.Id)
-                    .Sum(r => 
+                    .Sum(r =>
                     {
                         var car = r.Car;
                         var modelGeneration = modelGenerations.FirstOrDefault(mg => mg.Id == car.ModelGenerationId);
@@ -218,7 +233,7 @@ public class RentalService(
             .OrderByDescending(x => x.TotalRentalCost)
             .Take(5)
             .ToList();
-        
+
         return result;
     }
 }
