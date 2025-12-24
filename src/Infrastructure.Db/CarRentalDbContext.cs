@@ -43,21 +43,6 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : 
     {
         base.OnModelCreating(modelBuilder);
 
-        // Конфигурация именования в snake_case
-        foreach (var entity in modelBuilder.Model.GetEntityTypes())
-        {
-            var tableName = entity.GetTableName();
-            if (!string.IsNullOrEmpty(tableName))
-            {
-                entity.SetTableName(ToSnakeCase(tableName));
-            }
-
-            foreach (var property in entity.GetProperties())
-            {
-                property.SetColumnName(ToSnakeCase(property.Name));
-            }
-        }
-
         modelBuilder.Entity<CarModel>(entity =>
         {
             entity.HasKey(e => e.Id);

@@ -13,7 +13,7 @@ public class ClientService(IRepository<Client> clientRepository) : IClientServic
     /// <summary>
     /// Маппинг Dto в доменную модель
     /// </summary>
-    private static Client MapToDomain(ClientDto entity)
+    public static Client MapToDomain(ClientDto entity)
     {
         return new Client
         {
@@ -27,7 +27,7 @@ public class ClientService(IRepository<Client> clientRepository) : IClientServic
     /// <summary>
     /// Маппинг доменной модели в Dto
     /// </summary>
-    private static ClientDto MapToDto(Client client)
+    public static ClientDto MapToDto(Client client)
     {
         return new ClientDto
         {
@@ -40,7 +40,7 @@ public class ClientService(IRepository<Client> clientRepository) : IClientServic
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
-    private static ClientResponseDto MapToResponseDto(Client client)
+    public static ClientResponseDto MapToResponseDto(Client client)
     {
         return new ClientResponseDto
         {

@@ -9,15 +9,14 @@ namespace Infrastructure.Db.Repositories;
 /// </summary>
 public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental>
 {
-    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание новой аренды
     /// </summary>
     public async Task<int> CreateAsync(Rental entity)
     {
-        _context.Rentals.Add(entity);
-        await _context.SaveChangesAsync();
+        context.Rentals.Add(entity);
+        await context.SaveChangesAsync();
         return entity.Id;
     }
 
@@ -26,7 +25,7 @@ public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental
     /// </summary>
     public async Task<List<Rental>> ReadAsync()
     {
-        return await _context.Rentals
+        return await context.Rentals
             .Include(r => r.Car)
             .ThenInclude(c => c.ModelGeneration)
             .ThenInclude(mg => mg.Model)
@@ -39,7 +38,7 @@ public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental
     /// </summary>
     public async Task<Rental?> ReadAsync(int id)
     {
-        return await _context.Rentals
+        return await context.Rentals
             .Include(r => r.Car)
             .ThenInclude(c => c.ModelGeneration)
             .ThenInclude(mg => mg.Model)
@@ -52,11 +51,11 @@ public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental
     /// </summary>
     public async Task<Rental?> UpdateAsync(int id, Rental entity)
     {
-        var existing = await _context.Rentals.FindAsync(id);
+        var existing = await context.Rentals.FindAsync(id);
         if (existing == null) return null;
 
-        _context.Entry(existing).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
+        context.Entry(existing).CurrentValues.SetValues(entity);
+        await context.SaveChangesAsync();
         return existing;
     }
 
@@ -65,11 +64,11 @@ public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        var entity = await _context.Rentals.FindAsync(id);
+        var entity = await context.Rentals.FindAsync(id);
         if (entity == null) return false;
 
-        _context.Rentals.Remove(entity);
-        await _context.SaveChangesAsync();
+        context.Rentals.Remove(entity);
+        await context.SaveChangesAsync();
         return true;
     }
 }

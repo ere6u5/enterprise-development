@@ -46,7 +46,7 @@ public class RentalService(
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
-    private static RentalResponseDto MapToResponseDto(Rental rental)
+    public static RentalResponseDto MapToResponseDto(Rental rental)
     {
         return new RentalResponseDto
         {
@@ -61,7 +61,7 @@ public class RentalService(
     /// <summary>
     /// Маппинг автомобиля в CarResponseDto
     /// </summary>
-    private static CarResponseDto MapToCarResponseDto(Car car)
+    public static CarResponseDto MapToCarResponseDto(Car car)
     {
         return new CarResponseDto
         {
@@ -91,7 +91,7 @@ public class RentalService(
     /// <summary>
     /// Маппинг клиента в ClientResponseDto
     /// </summary>
-    private static ClientResponseDto MapToClientResponseDto(Client client)
+    public static ClientResponseDto MapToClientResponseDto(Client client)
     {
         return new ClientResponseDto
         {

@@ -9,15 +9,14 @@ namespace Infrastructure.Db.Repositories;
 /// </summary>
 public class DbClientRepository(CarRentalDbContext context) : IRepository<Client>
 {
-    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание нового клиента
     /// </summary>
     public async Task<int> CreateAsync(Client entity)
     {
-        _context.Clients.Add(entity);
-        await _context.SaveChangesAsync();
+        context.Clients.Add(entity);
+        await context.SaveChangesAsync();
         return entity.Id;
     }
 
@@ -26,7 +25,7 @@ public class DbClientRepository(CarRentalDbContext context) : IRepository<Client
     /// </summary>
     public async Task<List<Client>> ReadAsync()
     {
-        return await _context.Clients.ToListAsync();
+        return await context.Clients.ToListAsync();
     }
 
     /// <summary>
@@ -34,7 +33,7 @@ public class DbClientRepository(CarRentalDbContext context) : IRepository<Client
     /// </summary>
     public async Task<Client?> ReadAsync(int id)
     {
-        return await _context.Clients.FindAsync(id);
+        return await context.Clients.FindAsync(id);
     }
 
     /// <summary>
@@ -42,11 +41,11 @@ public class DbClientRepository(CarRentalDbContext context) : IRepository<Client
     /// </summary>
     public async Task<Client?> UpdateAsync(int id, Client entity)
     {
-        var existing = await _context.Clients.FindAsync(id);
+        var existing = await context.Clients.FindAsync(id);
         if (existing == null) return null;
 
-        _context.Entry(existing).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
+        context.Entry(existing).CurrentValues.SetValues(entity);
+        await context.SaveChangesAsync();
         return existing;
     }
 
@@ -55,11 +54,11 @@ public class DbClientRepository(CarRentalDbContext context) : IRepository<Client
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        var entity = await _context.Clients.FindAsync(id);
+        var entity = await context.Clients.FindAsync(id);
         if (entity == null) return false;
 
-        _context.Clients.Remove(entity);
-        await _context.SaveChangesAsync();
+        context.Clients.Remove(entity);
+        await context.SaveChangesAsync();
         return true;
     }
 }

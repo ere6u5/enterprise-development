@@ -9,15 +9,14 @@ namespace Infrastructure.Db.Repositories;
 /// </summary>
 public class DbCarModelRepository(CarRentalDbContext context) : IRepository<CarModel>
 {
-    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание новой модели автомобиля
     /// </summary>
     public async Task<int> CreateAsync(CarModel entity)
     {
-        _context.CarModels.Add(entity);
-        await _context.SaveChangesAsync();
+        context.CarModels.Add(entity);
+        await context.SaveChangesAsync();
         return entity.Id;
     }
 
@@ -26,7 +25,7 @@ public class DbCarModelRepository(CarRentalDbContext context) : IRepository<CarM
     /// </summary>
     public async Task<List<CarModel>> ReadAsync()
     {
-        return await _context.CarModels.ToListAsync();
+        return await context.CarModels.ToListAsync();
     }
 
     /// <summary>
@@ -34,7 +33,7 @@ public class DbCarModelRepository(CarRentalDbContext context) : IRepository<CarM
     /// </summary>
     public async Task<CarModel?> ReadAsync(int id)
     {
-        return await _context.CarModels.FindAsync(id);
+        return await context.CarModels.FindAsync(id);
     }
 
     /// <summary>
@@ -42,11 +41,11 @@ public class DbCarModelRepository(CarRentalDbContext context) : IRepository<CarM
     /// </summary>
     public async Task<CarModel?> UpdateAsync(int id, CarModel entity)
     {
-        var existing = await _context.CarModels.FindAsync(id);
+        var existing = await context.CarModels.FindAsync(id);
         if (existing == null) return null;
 
-        _context.Entry(existing).CurrentValues.SetValues(entity);
-        await _context.SaveChangesAsync();
+        context.Entry(existing).CurrentValues.SetValues(entity);
+        await context.SaveChangesAsync();
         return existing;
     }
 
@@ -55,11 +54,11 @@ public class DbCarModelRepository(CarRentalDbContext context) : IRepository<CarM
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        var entity = await _context.CarModels.FindAsync(id);
+        var entity = await context.CarModels.FindAsync(id);
         if (entity == null) return false;
 
-        _context.CarModels.Remove(entity);
-        await _context.SaveChangesAsync();
+        context.CarModels.Remove(entity);
+        await context.SaveChangesAsync();
         return true;
     }
 }

@@ -32,7 +32,7 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
     /// <summary>
     /// Маппинг доменной модели в Dto
     /// </summary>
-    private static CarDto MapToDto(Car car)
+    public static CarDto MapToDto(Car car)
     {
         return new CarDto
         {
@@ -45,7 +45,7 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
-    private static CarResponseDto MapToResponseDto(Car car)
+    public static CarResponseDto MapToResponseDto(Car car)
     {
         return new CarResponseDto
         {

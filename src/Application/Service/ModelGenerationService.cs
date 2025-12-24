@@ -34,7 +34,7 @@ public class ModelGenerationService(IRepository<ModelGeneration> modelGeneration
     /// <summary>
     /// Маппинг доменной модели в Dto
     /// </summary>
-    private static ModelGenerationDto MapToDto(ModelGeneration modelGeneration)
+    public static ModelGenerationDto MapToDto(ModelGeneration modelGeneration)
     {
         return new ModelGenerationDto
         {
@@ -49,7 +49,7 @@ public class ModelGenerationService(IRepository<ModelGeneration> modelGeneration
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
-    private static ModelGenerationResponseDto MapToResponseDto(ModelGeneration modelGeneration)
+    public static ModelGenerationResponseDto MapToResponseDto(ModelGeneration modelGeneration)
     {
         return new ModelGenerationResponseDto
         {

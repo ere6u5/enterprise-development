@@ -13,7 +13,7 @@ public class CarModelService(IRepository<CarModel> carModelRepository) : ICarMod
     /// <summary>
     /// Маппинг Dto в доменную модель
     /// </summary>
-    private static CarModel MapToDomain(CarModelDto entity)
+    public static CarModel MapToDomain(CarModelDto entity)
     {
         return new CarModel
         {
@@ -29,7 +29,7 @@ public class CarModelService(IRepository<CarModel> carModelRepository) : ICarMod
     /// <summary>
     /// Маппинг доменной модели в Dto
     /// </summary>
-    private static CarModelDto MapToDto(CarModel carModel)
+    public static CarModelDto MapToDto(CarModel carModel)
     {
         return new CarModelDto
         {
@@ -44,7 +44,7 @@ public class CarModelService(IRepository<CarModel> carModelRepository) : ICarMod
     /// <summary>
     /// Маппинг доменной модели в Response Dto
     /// </summary>
-    private static CarModelResponseDto MapToResponseDto(CarModel carModel)
+    public static CarModelResponseDto MapToResponseDto(CarModel carModel)
     {
         return new CarModelResponseDto
         {
