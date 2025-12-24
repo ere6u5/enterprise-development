@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Application.Service;
+using Contracts;
 using NATS.Client;
 
 namespace Api;
@@ -98,11 +99,23 @@ public class NatsMessageHandlerService : IHostedService
         
         try
         {
-            var rentalDto = data.Deserialize<Application.Dto.RentalDto>();
-            if (rentalDto != null)
+            // Десериализуем как RentalGeneratedMessage (контракт из Generator)
+            var rentalMessage = data.Deserialize<RentalGeneratedMessage>();
+            
+            if (rentalMessage != null)
             {
+                // Конвертируем в RentalDto (для сервиса)
+                var rentalDto = new Application.Dto.RentalDto
+                {
+                    CarId = rentalMessage.CarId,
+                    ClientId = rentalMessage.ClientId,
+                    RentalStart = rentalMessage.RentalStart,
+                    RentalHours = rentalMessage.RentalHours
+                };
+
                 var rentalService = scope.ServiceProvider.GetRequiredService<IRentalService>();
-                var rentalId = await rentalService.CreateRentalAsync(rentalDto);
+                
+                var rentalId = await rentalService.CreateRentalAsync(rentalDto, publishEvent: false);
                 
                 _logger.LogInformation("Processed generated rental with ID {RentalId}", rentalId);
             }

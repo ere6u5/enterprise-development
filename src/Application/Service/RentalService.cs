@@ -103,18 +103,21 @@ public class RentalService(
     }
 
     /// <inheritdoc />
-    public async Task<int> CreateRentalAsync(RentalDto entity)
+    public async Task<int> CreateRentalAsync(RentalDto entity, bool publishEvent = true)
     {
         var rental = await MapToDomainAsync(entity);
         var rentalId = await rentalRepository.CreateAsync(rental);
 
-        // Публикуем событие в NATS
-        await natsService.PublishRentalCreatedAsync(
-            rentalId,
-            entity.CarId,
-            entity.ClientId,
-            entity.RentalStart,
-            entity.RentalHours);
+        // Публикуем событие в NATS только если не из генератора
+        if (publishEvent)
+        {
+            await natsService.PublishRentalCreatedAsync(
+                rentalId,
+                entity.CarId,
+                entity.ClientId,
+                entity.RentalStart,
+                entity.RentalHours);
+        }
 
         return rentalId;
     }

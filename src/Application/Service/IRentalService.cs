@@ -11,8 +11,9 @@ public interface IRentalService
     /// Создание новой аренды
     /// </summary>
     /// <param name="entity">Данные аренды</param>
+    /// <param name="publishEvent">Опубликован ли ивент</param>
     /// <returns>Идентификатор созданной аренды</returns>
-    public Task<int> CreateRentalAsync(RentalDto entity);
+    public Task<int> CreateRentalAsync(RentalDto entity, bool publishEvent = true);
     
     /// <summary>
     /// Получение всех аренд
