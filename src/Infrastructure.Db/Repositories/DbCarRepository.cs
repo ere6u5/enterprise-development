@@ -7,18 +7,15 @@ namespace Infrastructure.Db.Repositories;
 /// <summary>
 /// Репозиторий для работы с автомобилями в базе данных
 /// </summary>
-public class DbCarRepository : IRepository<Car>
+public class DbCarRepository(CarRentalDbContext context) : IRepository<Car>
 {
-    private readonly CarRentalDbContext _context;
+    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Конструктор репозитория автомобилей
     /// </summary>
     /// <param name="context">Контекст базы данных</param>
-    public DbCarRepository(CarRentalDbContext context)
-    {
-        _context = context;
-    }
+
 
     /// <summary>
     /// Создание нового автомобиля

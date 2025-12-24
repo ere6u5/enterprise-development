@@ -4,12 +4,12 @@ using Domain.Enums;
 namespace Domain.Seeder;
 
 /// <summary>
-/// Class with data about entities
+/// Класс с данными
 /// </summary>
 public class DataSeeder
 {
     /// <summary>
-    /// List of all car models
+    /// Список моделей
     /// </summary>
     public List<CarModel> CarModels =>
     [
@@ -57,11 +57,74 @@ public class DataSeeder
             SeatCount = 2,
             BodyType = BodyType.Coupe,
             CarClass = CarClass.Sport
+        },
+        new()
+        {
+            Id = 6,
+            Name = "Honda Civic",
+            DriveType = CarDriveType.FrontWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.Sedan,
+            CarClass = CarClass.Economy
+        },
+        new()
+        {
+            Id = 7,
+            Name = "Audi A6",
+            DriveType = CarDriveType.AllWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.Sedan,
+            CarClass = CarClass.Business
+        },
+        new()
+        {
+            Id = 8,
+            Name = "Volkswagen Golf",
+            DriveType = CarDriveType.FrontWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.Hatchback,
+            CarClass = CarClass.Comfort
+        },
+        new()
+        {
+            Id = 9,
+            Name = "Tesla Model 3",
+            DriveType = CarDriveType.RearWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.Sedan,
+            CarClass = CarClass.Premium
+        },
+        new()
+        {
+            Id = 10,
+            Name = "Jeep Wrangler",
+            DriveType = CarDriveType.AllWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.SUV,
+            CarClass = CarClass.Sport
+        },
+        new()
+        {
+            Id = 11,
+            Name = "Hyundai Tucson",
+            DriveType = CarDriveType.FrontWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.SUV,
+            CarClass = CarClass.Comfort
+        },
+        new()
+        {
+            Id = 12,
+            Name = "Nissan Qashqai",
+            DriveType = CarDriveType.FrontWheelDrive,
+            SeatCount = 5,
+            BodyType = BodyType.SUV,
+            CarClass = CarClass.Economy
         }
     ];
 
     /// <summary>
-    /// List of all model generations
+    /// Список всех генераций
     /// </summary>
     public List<ModelGeneration> ModelGenerations =>
     [
@@ -114,11 +177,81 @@ public class DataSeeder
             ModelId = 5,
             Model = CarModels[4],
             RentalCostPerHour = 50.0m
+        },
+        new()
+        {
+            Id = 6,
+            Year = 2023,
+            EngineVolume = 2.0,
+            TransmissionType = TransmissionType.Automatic,
+            ModelId = 6,
+            Model = CarModels[5],
+            RentalCostPerHour = 12.0m
+        },
+        new()
+        {
+            Id = 7,
+            Year = 2024,
+            EngineVolume = 3.0,
+            TransmissionType = TransmissionType.Automatic,
+            ModelId = 7,
+            Model = CarModels[6],
+            RentalCostPerHour = 35.0m
+        },
+        new()
+        {
+            Id = 8,
+            Year = 2022,
+            EngineVolume = 1.4,
+            TransmissionType = TransmissionType.Manual,
+            ModelId = 8,
+            Model = CarModels[7],
+            RentalCostPerHour = 14.0m
+        },
+        new()
+        {
+            Id = 9,
+            Year = 2023,
+            EngineVolume = 0, // Electric
+            TransmissionType = TransmissionType.Automatic,
+            ModelId = 9,
+            Model = CarModels[8],
+            RentalCostPerHour = 45.0m
+        },
+        new()
+        {
+            Id = 10,
+            Year = 2021,
+            EngineVolume = 3.6,
+            TransmissionType = TransmissionType.Automatic,
+            ModelId = 10,
+            Model = CarModels[9],
+            RentalCostPerHour = 38.0m
+        },
+        new()
+        {
+            Id = 11,
+            Year = 2023,
+            EngineVolume = 2.5,
+            TransmissionType = TransmissionType.Automatic,
+            ModelId = 11,
+            Model = CarModels[10],
+            RentalCostPerHour = 22.0m
+        },
+        new()
+        {
+            Id = 12,
+            Year = 2022,
+            EngineVolume = 1.3,
+            TransmissionType = TransmissionType.CVT,
+            ModelId = 12,
+            Model = CarModels[11],
+            RentalCostPerHour = 18.0m
         }
     ];
 
     /// <summary>
-    /// List of all cars
+    /// Список всех машин
     /// </summary>
     public List<Car> Cars =>
     [
@@ -186,7 +319,7 @@ public class DataSeeder
     ];
 
     /// <summary>
-    /// List of all clients
+    /// Список всех клиентов
     /// </summary>
     public List<Client> Clients =>
     [
@@ -233,7 +366,7 @@ public class DataSeeder
     ];
 
     /// <summary>
-    /// List of all rentals
+    /// Список ренталов
     /// </summary>
     public List<Rental> Rentals =>
     [

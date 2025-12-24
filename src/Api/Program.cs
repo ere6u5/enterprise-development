@@ -9,6 +9,20 @@ using Infrastructure.Nats;
 var builder = WebApplication.CreateBuilder(args);
 
 // builder.WebHost.UseUrls("http://*:5000;https://*:5001");
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlApiPath = Path.Combine(AppContext.BaseDirectory, "Api.xml");
+    var xmlApplicationPath = Path.Combine(AppContext.BaseDirectory, "Application.xml");
+    
+    if (File.Exists(xmlApiPath))
+        options.IncludeXmlComments(xmlApiPath);
+    
+    if (File.Exists(xmlApplicationPath))
+        options.IncludeXmlComments(xmlApplicationPath);
+    
+    options.SupportNonNullableReferenceTypes();
+    options.UseAllOfToExtendReferenceSchemas();
+});
 
 // Настройка CORS
 builder.Services.AddCors(options =>
