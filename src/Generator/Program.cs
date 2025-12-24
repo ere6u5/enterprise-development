@@ -78,7 +78,7 @@ public class RentalGeneratorService : IHostedService
 
             _logger.LogInformation("Generating {Count} rentals", count);
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var rental = rentals[random.Next(rentals.Count)];
 

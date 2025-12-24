@@ -5,18 +5,18 @@ using Domain.Seeder;
 namespace Infrastructure.InMemory.Repositories;
 
 /// <summary>
-/// In-memory repository implementation for Rental entities
+/// In-memory реализация репозитория для сущностей Rental
 /// </summary>
-/// <param name="seeder">Optional data seeder for initial population</param>
+/// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
 public class InMemoryRentalRepository : IRepository<Rental>
 {
     private readonly List<Rental> _items = [];
     private int _currentId = 1;
 
     /// <summary>
-    /// Initializes a new instance of the in-memory rental repository
+    /// Инициализирует новый экземпляр in-memory репозитория аренд
     /// </summary>
-    /// <param name="seeder">Optional data seeder for initial population</param>
+    /// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
     public InMemoryRentalRepository(DataSeeder? seeder)
     {
         if (seeder == null) return;
@@ -26,10 +26,10 @@ public class InMemoryRentalRepository : IRepository<Rental>
     }
 
     /// <summary>
-    /// Creates a new rental entity in memory
+    /// Создает новую сущность аренды в памяти
     /// </summary>
-    /// <param name="entity">Rental entity to create</param>
-    /// <returns>ID of the created rental</returns>
+    /// <param name="entity">Сущность аренды для создания</param>
+    /// <returns>ID созданной аренды</returns>
     public async Task<int> CreateAsync(Rental entity)
     {
         return await Task.Run(() =>
@@ -42,30 +42,30 @@ public class InMemoryRentalRepository : IRepository<Rental>
     }
 
     /// <summary>
-    /// Retrieves all rentals from memory
+    /// Получает все аренды из памяти
     /// </summary>
-    /// <returns>List of all rentals</returns>
+    /// <returns>Список всех аренд</returns>
     public async Task<List<Rental>> ReadAsync()
     {
         return await Task.Run(() => _items);
     }
 
     /// <summary>
-    /// Retrieves a rental by ID from memory
+    /// Получает аренду по ID из памяти
     /// </summary>
-    /// <param name="id">Rental ID</param>
-    /// <returns>Rental entity or null if not found</returns>
+    /// <param name="id">ID аренды</param>
+    /// <returns>Сущность аренды или null, если не найдена</returns>
     public async Task<Rental?> ReadAsync(int id)
     {
         return await Task.Run(() => _items.FirstOrDefault(item => item.Id == id));
     }
 
     /// <summary>
-    /// Updates an existing rental entity in memory
+    /// Обновляет существующую сущность аренды в памяти
     /// </summary>
-    /// <param name="id">Rental ID</param>
-    /// <param name="entity">Updated rental data</param>
-    /// <returns>Updated rental entity or null if not found</returns>
+    /// <param name="id">ID аренды</param>
+    /// <param name="entity">Обновленные данные аренды</param>
+    /// <returns>Обновленная сущность аренды или null, если не найдена</returns>
     public async Task<Rental?> UpdateAsync(int id, Rental entity)
     {
         return await Task.Run(() =>
@@ -85,10 +85,10 @@ public class InMemoryRentalRepository : IRepository<Rental>
     }
 
     /// <summary>
-    /// Deletes a rental entity from memory
+    /// Удаляет сущность аренды из памяти
     /// </summary>
-    /// <param name="id">Rental ID</param>
-    /// <returns>True if deleted successfully, false if not found</returns>
+    /// <param name="id">ID аренды</param>
+    /// <returns>True, если успешно удалена, false, если не найдена</returns>
     public async Task<bool> DeleteAsync(int id)
     {
         return await Task.Run(() =>

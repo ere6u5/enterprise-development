@@ -5,18 +5,18 @@ using Domain.Seeder;
 namespace Infrastructure.InMemory.Repositories;
 
 /// <summary>
-/// In-memory repository implementation for ModelGeneration entities
+/// In-memory реализация репозитория для сущностей ModelGeneration
 /// </summary>
-/// <param name="seeder">Optional data seeder for initial population</param>
+/// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
 public class InMemoryModelGenerationRepository : IRepository<ModelGeneration>
 {
     private readonly List<ModelGeneration> _items = [];
     private int _currentId = 1;
 
     /// <summary>
-    /// Initializes a new instance of the in-memory model generation repository
+    /// Инициализирует новый экземпляр in-memory репозитория поколений моделей
     /// </summary>
-    /// <param name="seeder">Optional data seeder for initial population</param>
+    /// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
     public InMemoryModelGenerationRepository(DataSeeder? seeder)
     {
         if (seeder == null) return;
@@ -26,10 +26,10 @@ public class InMemoryModelGenerationRepository : IRepository<ModelGeneration>
     }
 
     /// <summary>
-    /// Creates a new model generation entity in memory
+    /// Создает новую сущность поколения модели в памяти
     /// </summary>
-    /// <param name="entity">Model generation entity to create</param>
-    /// <returns>ID of the created model generation</returns>
+    /// <param name="entity">Сущность поколения модели для создания</param>
+    /// <returns>ID созданного поколения модели</returns>
     public async Task<int> CreateAsync(ModelGeneration entity)
     {
         return await Task.Run(() =>
@@ -42,30 +42,30 @@ public class InMemoryModelGenerationRepository : IRepository<ModelGeneration>
     }
 
     /// <summary>
-    /// Retrieves all model generations from memory
+    /// Получает все поколения моделей из памяти
     /// </summary>
-    /// <returns>List of all model generations</returns>
+    /// <returns>Список всех поколений моделей</returns>
     public async Task<List<ModelGeneration>> ReadAsync()
     {
         return await Task.Run(() => _items);
     }
 
     /// <summary>
-    /// Retrieves a model generation by ID from memory
+    /// Получает поколение модели по ID из памяти
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <returns>Model generation entity or null if not found</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <returns>Сущность поколения модели или null, если не найдена</returns>
     public async Task<ModelGeneration?> ReadAsync(int id)
     {
         return await Task.Run(() => _items.FirstOrDefault(item => item.Id == id));
     }
 
     /// <summary>
-    /// Updates an existing model generation entity in memory
+    /// Обновляет существующую сущность поколения модели в памяти
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <param name="entity">Updated model generation data</param>
-    /// <returns>Updated model generation entity or null if not found</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <param name="entity">Обновленные данные поколения модели</param>
+    /// <returns>Обновленная сущность поколения модели или null, если не найдена</returns>
     public async Task<ModelGeneration?> UpdateAsync(int id, ModelGeneration entity)
     {
         return await Task.Run(() =>
@@ -84,10 +84,10 @@ public class InMemoryModelGenerationRepository : IRepository<ModelGeneration>
     }
 
     /// <summary>
-    /// Deletes a model generation entity from memory
+    /// Удаляет сущность поколения модели из памяти
     /// </summary>
-    /// <param name="id">Model generation ID</param>
-    /// <returns>True if deleted successfully, false if not found</returns>
+    /// <param name="id">ID поколения модели</param>
+    /// <returns>True, если успешно удалена, false, если не найдена</returns>
     public async Task<bool> DeleteAsync(int id)
     {
         return await Task.Run(() =>

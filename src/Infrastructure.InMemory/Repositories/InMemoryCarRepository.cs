@@ -5,18 +5,18 @@ using Domain.Seeder;
 namespace Infrastructure.InMemory.Repositories;
 
 /// <summary>
-/// In-memory repository implementation for Car entities
+/// In-memory реализация репозитория для сущностей Car
 /// </summary>
-/// <param name="seeder">Optional data seeder for initial population</param>
+/// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
 public class InMemoryCarRepository : IRepository<Car>
 {
     private readonly List<Car> _items = [];
     private int _currentId = 1;
 
     /// <summary>
-    /// Initializes a new instance of the in-memory car repository
+    /// Инициализирует новый экземпляр in-memory репозитория автомобилей
     /// </summary>
-    /// <param name="seeder">Optional data seeder for initial population</param>
+    /// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
     public InMemoryCarRepository(DataSeeder? seeder)
     {
         if (seeder == null) return;
@@ -26,10 +26,10 @@ public class InMemoryCarRepository : IRepository<Car>
     }
 
     /// <summary>
-    /// Creates a new car entity in memory
+    /// Создает новую сущность автомобиля в памяти
     /// </summary>
-    /// <param name="entity">Car entity to create</param>
-    /// <returns>ID of the created car</returns>
+    /// <param name="entity">Сущность автомобиля для создания</param>
+    /// <returns>ID созданного автомобиля</returns>
     public async Task<int> CreateAsync(Car entity)
     {
         return await Task.Run(() =>
@@ -42,30 +42,30 @@ public class InMemoryCarRepository : IRepository<Car>
     }
 
     /// <summary>
-    /// Retrieves all cars from memory
+    /// Получает все автомобили из памяти
     /// </summary>
-    /// <returns>List of all cars</returns>
+    /// <returns>Список всех автомобилей</returns>
     public async Task<List<Car>> ReadAsync()
     {
         return await Task.Run(() => _items);
     }
 
     /// <summary>
-    /// Retrieves a car by ID from memory
+    /// Получает автомобиль по ID из памяти
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <returns>Car entity or null if not found</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <returns>Сущность автомобиля или null, если не найден</returns>
     public async Task<Car?> ReadAsync(int id)
     {
         return await Task.Run(() => _items.FirstOrDefault(item => item.Id == id));
     }
 
     /// <summary>
-    /// Updates an existing car entity in memory
+    /// Обновляет существующую сущность автомобиля в памяти
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <param name="entity">Updated car data</param>
-    /// <returns>Updated car entity or null if not found</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <param name="entity">Обновленные данные автомобиля</param>
+    /// <returns>Обновленная сущность автомобиля или null, если не найден</returns>
     public async Task<Car?> UpdateAsync(int id, Car entity)
     {
         return await Task.Run(() =>
@@ -82,10 +82,10 @@ public class InMemoryCarRepository : IRepository<Car>
     }
 
     /// <summary>
-    /// Deletes a car entity from memory
+    /// Удаляет сущность автомобиля из памяти
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <returns>True if deleted successfully, false if not found</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <returns>True, если успешно удален, false, если не найден</returns>
     public async Task<bool> DeleteAsync(int id)
     {
         return await Task.Run(() =>

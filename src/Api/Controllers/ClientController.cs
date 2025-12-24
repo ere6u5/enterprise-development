@@ -5,84 +5,84 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 /// <summary>
-/// Controller for clients
+/// Контроллер для управления клиентами
 /// </summary>
-/// <param name="service">Client service instance</param>
-/// <param name="logger">Logger instance</param>
+/// <param name="service">Сервис клиентов</param>
+/// <param name="logger">Логгер</param>
 [ApiController]
 [Route("[controller]")]
 public class ClientController(IClientService service, ILogger<ClientController> logger) : ControllerBase
 {
     /// <summary>
-    /// Get all clients
+    /// Получить всех клиентов
     /// </summary>
-    /// <returns>List of clients</returns>
+    /// <returns>Список клиентов</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<ClientResponseDto>>> Get()
     {
-        logger.LogInformation("Getting all clients");
+        logger.LogInformation("Получение всех клиентов");
         var clients = await service.GetAllClientsAsync();
         return Ok(clients);
     }
 
     /// <summary>
-    /// Get client by ID
+    /// Получить клиента по ID
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <returns>Client</returns>
+    /// <param name="id">ID клиента</param>
+    /// <returns>Клиент</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ClientResponseDto>> GetClient(int id)
     {
-        logger.LogInformation("Getting client with ID {id}", id);
+        logger.LogInformation("Получение клиента с ID {id}", id);
         var client = await service.GetClientAsync(id);
         if (client != null) return Ok(client);
         return NotFound();
     }
 
     /// <summary>
-    /// Create client
+    /// Создать клиента
     /// </summary>
-    /// <param name="client">Client data</param>
-    /// <returns>Created client ID</returns>
+    /// <param name="client">Данные клиента</param>
+    /// <returns>ID созданного клиента</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<int>> CreateClient([FromBody] ClientDto client)
     {
-        logger.LogInformation("Creating client with full name {FullName}", client.FullName);
+        logger.LogInformation("Создание клиента с ФИО {FullName}", client.FullName);
         var id = await service.CreateClientAsync(client);
         return Created($"/client/{id}", id);
     }
 
     /// <summary>
-    /// Update client
+    /// Обновить клиента
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <param name="entity">Updated client data</param>
-    /// <returns>Updated client</returns>
+    /// <param name="id">ID клиента</param>
+    /// <param name="entity">Обновленные данные клиента</param>
+    /// <returns>Обновленный клиент</returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ClientDto?>> UpdateClient(int id, [FromBody] ClientDto entity)
     {
-        logger.LogInformation("Updating client with ID {id}", id);
+        logger.LogInformation("Обновление клиента с ID {id}", id);
         var client = await service.UpdateClientAsync(id, entity);
         if (client != null) return Ok(client);
         return NotFound();
     }
 
     /// <summary>
-    /// Delete client
+    /// Удалить клиента
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <returns>No content</returns>
+    /// <param name="id">ID клиента</param>
+    /// <returns>Результат без содержимого</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteClient(int id)
     {
-        logger.LogInformation("Deleting client with ID {id}", id);
+        logger.LogInformation("Удаление клиента с ID {id}", id);
         await service.DeleteClientAsync(id);
         return NoContent();
     }

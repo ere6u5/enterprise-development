@@ -5,18 +5,18 @@ using Domain.Seeder;
 namespace Infrastructure.InMemory.Repositories;
 
 /// <summary>
-/// In-memory repository implementation for Client entities
+/// In-memory реализация репозитория для сущностей Client
 /// </summary>
-/// <param name="seeder">Optional data seeder for initial population</param>
+/// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
 public class InMemoryClientRepository : IRepository<Client>
 {
     private readonly List<Client> _items = [];
     private int _currentId = 1;
 
     /// <summary>
-    /// Initializes a new instance of the in-memory client repository
+    /// Инициализирует новый экземпляр in-memory репозитория клиентов
     /// </summary>
-    /// <param name="seeder">Optional data seeder for initial population</param>
+    /// <param name="seeder">Опциональный генератор данных для начального заполнения</param>
     public InMemoryClientRepository(DataSeeder? seeder)
     {
         if (seeder == null) return;
@@ -26,10 +26,10 @@ public class InMemoryClientRepository : IRepository<Client>
     }
 
     /// <summary>
-    /// Creates a new client entity in memory
+    /// Создает новую сущность клиента в памяти
     /// </summary>
-    /// <param name="entity">Client entity to create</param>
-    /// <returns>ID of the created client</returns>
+    /// <param name="entity">Сущность клиента для создания</param>
+    /// <returns>ID созданного клиента</returns>
     public async Task<int> CreateAsync(Client entity)
     {
         return await Task.Run(() =>
@@ -42,30 +42,30 @@ public class InMemoryClientRepository : IRepository<Client>
     }
 
     /// <summary>
-    /// Retrieves all clients from memory
+    /// Получает всех клиентов из памяти
     /// </summary>
-    /// <returns>List of all clients</returns>
+    /// <returns>Список всех клиентов</returns>
     public async Task<List<Client>> ReadAsync()
     {
         return await Task.Run(() => _items);
     }
 
     /// <summary>
-    /// Retrieves a client by ID from memory
+    /// Получает клиента по ID из памяти
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <returns>Client entity or null if not found</returns>
+    /// <param name="id">ID клиента</param>
+    /// <returns>Сущность клиента или null, если не найден</returns>
     public async Task<Client?> ReadAsync(int id)
     {
         return await Task.Run(() => _items.FirstOrDefault(item => item.Id == id));
     }
 
     /// <summary>
-    /// Updates an existing client entity in memory
+    /// Обновляет существующую сущность клиента в памяти
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <param name="entity">Updated client data</param>
-    /// <returns>Updated client entity or null if not found</returns>
+    /// <param name="id">ID клиента</param>
+    /// <param name="entity">Обновленные данные клиента</param>
+    /// <returns>Обновленная сущность клиента или null, если не найден</returns>
     public async Task<Client?> UpdateAsync(int id, Client entity)
     {
         return await Task.Run(() =>
@@ -82,10 +82,10 @@ public class InMemoryClientRepository : IRepository<Client>
     }
 
     /// <summary>
-    /// Deletes a client entity from memory
+    /// Удаляет сущность клиента из памяти
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <returns>True if deleted successfully, false if not found</returns>
+    /// <param name="id">ID клиента</param>
+    /// <returns>True, если успешно удален, false, если не найден</returns>
     public async Task<bool> DeleteAsync(int id)
     {
         return await Task.Run(() =>

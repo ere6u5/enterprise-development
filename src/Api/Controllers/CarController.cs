@@ -5,84 +5,84 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 /// <summary>
-/// Controller for cars
+/// Контроллер для управления автомобилями
 /// </summary>
-/// <param name="service">Car service instance</param>
-/// <param name="logger">Logger instance</param>
+/// <param name="service">Сервис автомобилей</param>
+/// <param name="logger">Логгер</param>
 [ApiController]
 [Route("[controller]")]
 public class CarController(ICarService service, ILogger<CarController> logger) : ControllerBase
 {
     /// <summary>
-    /// Get all cars
+    /// Получить все автомобили
     /// </summary>
-    /// <returns>List of cars</returns>
+    /// <returns>Список автомобилей</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<CarResponseDto>>> Get()
     {
-        logger.LogInformation("Getting all cars");
+        logger.LogInformation("Получение всех автомобилей");
         var cars = await service.GetAllCarsAsync();
         return Ok(cars);
     }
 
     /// <summary>
-    /// Get car by ID
+    /// Получить автомобиль по ID
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <returns>Car</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <returns>Автомобиль</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CarResponseDto>> GetCar(int id)
     {
-        logger.LogInformation("Getting car with ID {id}", id);
+        logger.LogInformation("Получение автомобиля с ID {id}", id);
         var car = await service.GetCarAsync(id);
         if (car != null) return Ok(car);
         return NotFound();
     }
 
     /// <summary>
-    /// Create car
+    /// Создать автомобиль
     /// </summary>
-    /// <param name="car">Car data</param>
-    /// <returns>Created car ID</returns>
+    /// <param name="car">Данные автомобиля</param>
+    /// <returns>ID созданного автомобиля</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<int>> CreateCar([FromBody] CarDto car)
     {
-        logger.LogInformation("Creating car with license plate {LicensePlate}", car.LicensePlate);
+        logger.LogInformation("Создание автомобиля с номером {LicensePlate}", car.LicensePlate);
         var id = await service.CreateCarAsync(car);
         return Created($"/car/{id}", id);
     }
 
     /// <summary>
-    /// Update car
+    /// Обновить автомобиль
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <param name="entity">Updated car data</param>
-    /// <returns>Updated car</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <param name="entity">Обновленные данные автомобиля</param>
+    /// <returns>Обновленный автомобиль</returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CarDto?>> UpdateCar(int id, [FromBody] CarDto entity)
     {
-        logger.LogInformation("Updating car with ID {id}", id);
+        logger.LogInformation("Обновление автомобиля с ID {id}", id);
         var car = await service.UpdateCarAsync(id, entity);
         if (car != null) return Ok(car);
         return NotFound();
     }
 
     /// <summary>
-    /// Delete car
+    /// Удалить автомобиль
     /// </summary>
-    /// <param name="id">Car ID</param>
-    /// <returns>No content</returns>
+    /// <param name="id">ID автомобиля</param>
+    /// <returns>Результат без содержимого</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteCar(int id)
     {
-        logger.LogInformation("Deleting car with ID {id}", id);
+        logger.LogInformation("Удаление автомобиля с ID {id}", id);
         await service.DeleteCarAsync(id);
         return NoContent();
     }
