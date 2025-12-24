@@ -1,7 +1,7 @@
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// Response DTO для клиента
+/// Response Dto для клиента
 /// </summary>
 public class ClientResponseDto
 {

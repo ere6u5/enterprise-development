@@ -1,4 +1,4 @@
-using Application.DTO;
+using Application.Dto;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -11,7 +11,7 @@ namespace Application.Service;
 public class ClientService(IRepository<Client> clientRepository) : IClientService
 {
     /// <summary>
-    /// Маппинг DTO в доменную модель
+    /// Маппинг Dto в доменную модель
     /// </summary>
     private static Client MapToDomain(ClientDto entity)
     {
@@ -25,7 +25,7 @@ public class ClientService(IRepository<Client> clientRepository) : IClientServic
     }
     
     /// <summary>
-    /// Маппинг доменной модели в DTO
+    /// Маппинг доменной модели в Dto
     /// </summary>
     private static ClientDto MapToDto(Client client)
     {
@@ -38,7 +38,7 @@ public class ClientService(IRepository<Client> clientRepository) : IClientServic
     }
     
     /// <summary>
-    /// Маппинг доменной модели в Response DTO
+    /// Маппинг доменной модели в Response Dto
     /// </summary>
     private static ClientResponseDto MapToResponseDto(Client client)
     {

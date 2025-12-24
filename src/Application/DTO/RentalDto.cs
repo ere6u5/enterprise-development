@@ -1,7 +1,7 @@
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// DTO для аренды
+/// Dto для аренды
 /// </summary>
 public class RentalDto
 {

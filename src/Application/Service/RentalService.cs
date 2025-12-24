@@ -1,4 +1,4 @@
-using Application.DTO;
+using Application.Dto;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -22,7 +22,7 @@ public class RentalService(
     INatsService natsService) : IRentalService
 {
     /// <summary>
-    /// Маппинг DTO в доменную модель
+    /// Маппинг Dto в доменную модель
     /// </summary>
     private async Task<Rental> MapToDomainAsync(RentalDto entity)
     {
@@ -44,7 +44,7 @@ public class RentalService(
     }
     
     /// <summary>
-    /// Маппинг доменной модели в Response DTO
+    /// Маппинг доменной модели в Response Dto
     /// </summary>
     private static RentalResponseDto MapToResponseDto(Rental rental)
     {

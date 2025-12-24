@@ -1,7 +1,7 @@
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// DTO для автомобиля
+/// Dto для автомобиля
 /// </summary>
 public class CarDto
 {

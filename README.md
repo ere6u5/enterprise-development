@@ -70,7 +70,7 @@ PS C:\Users\nick\Desktop\projects\nick\src\Infrastructure.Db> $env:ASPIRE_DASHBO
 - **Seeder**: Тестовые данные (DataSeeder)
 
 #### 2. Application Layer (Слой приложения)
-- **DTO**: Data Transfer Objects для входа/выхода
+- **Dto**: Data Transfer Objects для входа/выхода
 - **Services**: Бизнес-логика и обработка данных
 - **Interfaces**: Контракты сервисов
 
@@ -165,7 +165,7 @@ CarRental/
 │   │   └── Domain.csproj         # Проект Domain
 │   │
 │   ├── Application/              # Слой приложения
-│   │   ├── DTO/                  # Data Transfer Objects
+│   │   ├── Dto/                  # Data Transfer Objects
 │   │   ├── Service/              # Сервисы и интерфейсы
 │   │   └── Application.csproj    # Проект Application
 │   │
@@ -277,7 +277,7 @@ dotnet run
 - **Clean Architecture**: Разделение на слои Domain, Application, Infrastructure, API
 - **Repository Pattern**: Абстракция доступа к данным через интерфейсы IRepository<T>
 - **Dependency Injection**: Внедрение зависимостей через конструкторы
-- **DTO Pattern**: Отдельные классы для передачи данных между слоями
+- **Dto Pattern**: Отдельные классы для передачи данных между слоями
 - **Service Layer**: Бизнес-логика инкапсулирована в сервисах
 
 ### Принципы проектирования

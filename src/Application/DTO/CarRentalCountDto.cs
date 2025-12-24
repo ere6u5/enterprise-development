@@ -1,7 +1,7 @@
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// DTO для автомобиля с количеством аренд
+/// Dto для автомобиля с количеством аренд
 /// </summary>
 public class CarRentalCountDto
 {
