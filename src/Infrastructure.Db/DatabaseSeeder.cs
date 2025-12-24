@@ -12,6 +12,9 @@ public static class DatabaseSeeder
         {
             var seeder = new DataSeeder();
             
+            // Отключаем отслеживание для быстрой вставки
+            context.ChangeTracker.AutoDetectChangesEnabled = false;
+            
             context.CarModels.AddRange(seeder.CarModels);
             context.SaveChanges();
             
@@ -26,6 +29,8 @@ public static class DatabaseSeeder
             
             context.Rentals.AddRange(seeder.Rentals);
             context.SaveChanges();
+            
+            context.ChangeTracker.AutoDetectChangesEnabled = true;
         }
     }
 }

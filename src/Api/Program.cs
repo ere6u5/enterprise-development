@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Domain.Repositories;
 using Application.Service;
 using Infrastructure.Db.Repositories;
@@ -6,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Nats;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// builder.WebHost.UseUrls("http://*:5000;https://*:5001");
 
 // Настройка CORS
 builder.Services.AddCors(options =>
@@ -26,11 +29,11 @@ builder.Services.AddDbContext<CarRentalDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Регистрируем Db-репозитории
-builder.Services.AddScoped<IRepository<Domain.Entities.CarModel>, DbCarModelRepository>();
-builder.Services.AddScoped<IRepository<Domain.Entities.ModelGeneration>, DbModelGenerationRepository>();
-builder.Services.AddScoped<IRepository<Domain.Entities.Car>, DbCarRepository>();
-builder.Services.AddScoped<IRepository<Domain.Entities.Client>, DbClientRepository>();
-builder.Services.AddScoped<IRepository<Domain.Entities.Rental>, DbRentalRepository>();
+builder.Services.AddScoped<IRepository<CarModel>, DbCarModelRepository>();
+builder.Services.AddScoped<IRepository<ModelGeneration>, DbModelGenerationRepository>();
+builder.Services.AddScoped<IRepository<Car>, DbCarRepository>();
+builder.Services.AddScoped<IRepository<Client>, DbClientRepository>();
+builder.Services.AddScoped<IRepository<Rental>, DbRentalRepository>();
 
 builder.Services.AddScoped<INatsService>(provider =>
 {
@@ -75,7 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();

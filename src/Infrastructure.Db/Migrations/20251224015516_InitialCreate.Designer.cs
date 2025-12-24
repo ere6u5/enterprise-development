@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Db.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20251223195258_InitialCreate")]
+    [Migration("20251224015516_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,20 +26,24 @@ namespace Infrastructure.Db.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("color");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("license_plate");
 
                     b.Property<int>("ModelGenerationId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("model_generation_id");
 
                     b.HasKey("Id");
 
@@ -48,118 +52,139 @@ namespace Infrastructure.Db.Migrations
 
                     b.HasIndex("ModelGenerationId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("cars");
                 });
 
             modelBuilder.Entity("Domain.Entities.CarModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     b.Property<string>("BodyType")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("body_type");
 
                     b.Property<string>("CarClass")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("car_class");
 
                     b.Property<string>("DriveType")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("drive_type");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name");
 
                     b.Property<int>("SeatCount")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("seat_count");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("CarModels");
+                    b.ToTable("car_models");
                 });
 
             modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasColumnName("birth_date");
 
                     b.Property<string>("DriverLicenseNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("driver_license_number");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("full_name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DriverLicenseNumber")
                         .IsUnique();
 
-                    b.ToTable("Clients");
+                    b.ToTable("clients");
                 });
 
             modelBuilder.Entity("Domain.Entities.ModelGeneration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     b.Property<double>("EngineVolume")
                         .HasPrecision(3, 1)
-                        .HasColumnType("double");
+                        .HasColumnType("double")
+                        .HasColumnName("engine_volume");
 
                     b.Property<int>("ModelId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("model_id");
 
                     b.Property<decimal>("RentalCostPerHour")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("rental_cost_per_hour");
 
                     b.Property<string>("TransmissionType")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("transmission_type");
 
                     b.Property<int>("Year")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("year");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("ModelGenerations");
+                    b.ToTable("model_generations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     b.Property<int>("CarId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("car_id");
 
                     b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("client_id");
 
                     b.Property<int>("RentalHours")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("rental_hours");
 
                     b.Property<DateTime>("RentalStart")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("rental_start");
 
                     b.HasKey("Id");
 
@@ -167,7 +192,7 @@ namespace Infrastructure.Db.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Rentals");
+                    b.ToTable("rentals");
                 });
 
             modelBuilder.Entity("Domain.Entities.Car", b =>
@@ -175,7 +200,7 @@ namespace Infrastructure.Db.Migrations
                     b.HasOne("Domain.Entities.ModelGeneration", "ModelGeneration")
                         .WithMany()
                         .HasForeignKey("ModelGenerationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ModelGeneration");
@@ -186,7 +211,7 @@ namespace Infrastructure.Db.Migrations
                     b.HasOne("Domain.Entities.CarModel", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Model");
@@ -197,13 +222,13 @@ namespace Infrastructure.Db.Migrations
                     b.HasOne("Domain.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Car");

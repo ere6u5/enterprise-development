@@ -66,7 +66,7 @@ public class CarRentalRepoTests(CarRentalRepoFixture fixture) : IClassFixture<Ca
 
         // Assert
         Assert.NotNull(rentalCounts);
-        Assert.Equal(7, rentalCounts.Count); // 7 автомобилей в тестовых данных
+        Assert.Equal(12, rentalCounts.Count); // 12 автомобилей в тестовых данных
         
         // Проверяем что у всех автомобилей есть запись о количестве аренд
         Assert.All(rentalCounts, rc => Assert.NotNull(rc.Car));

@@ -1,4 +1,7 @@
-﻿# Пункт проката автомобилей
+﻿PS C:\Users\nick\Desktop\projects\nick\src\Infrastructure.Db> $env:ASPNETCORE_URLS="http://localhost:18888"
+PS C:\Users\nick\Desktop\projects\nick\src\Infrastructure.Db> $env:ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL="http://localhost:18889"
+
+# Пункт проката автомобилей
 
 ## Описание проекта
 Система управления пунктом проката автомобилей, разработанная для учета автомобилей, клиентов и операций аренды. Проект реализует доменную модель, API для управления данными и аналитические запросы. Архитектура построена по принципам чистой архитектуры с разделением на слои Domain, Application, Infrastructure и API.
