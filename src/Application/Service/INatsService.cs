@@ -6,19 +6,19 @@ namespace Application.Service;
 public interface INatsService
 {
     /// <summary>
-    /// Publishes rental created event
+    /// Интерфейс для службы обмена сообщениями NATS
     /// </summary>
-    /// <param name="rentalId">Rental ID</param>
-    /// <param name="carId">Car ID</param>
-    /// <param name="clientId">Client ID</param>
-    /// <param name="rentalStart">Rental start time</param>
-    /// <param name="rentalHours">Rental duration in hours</param>
-    Task PublishRentalCreatedAsync(int rentalId, int carId, int clientId, DateTime rentalStart, int rentalHours);
+    /// <param name="rentalId">Аренда ID</param>
+    /// <param name="carId">Машины ID</param>
+    /// <param name="clientId">ID Клиента</param>
+    /// <param name="rentalStart">Время начала аренды</param>
+    /// <param name="rentalHours">Продолжительность аренды в часах</param>
+    public Task PublishRentalCreatedAsync(int rentalId, int carId, int clientId, DateTime rentalStart, int rentalHours);
     
     /// <summary>
-    /// Publishes rental ended event
+    /// Публикуется событие окончания аренды
     /// </summary>
-    /// <param name="rentalId">Rental ID</param>
-    /// <param name="endTime">End time</param>
-    Task PublishRentalEndedAsync(int rentalId, DateTime endTime);
+    /// <param name="rentalId">Идентификатор аренды</param>
+    /// <param name="endTime">Время окончания</param>
+    public Task PublishRentalEndedAsync(int rentalId, DateTime endTime);
 }
