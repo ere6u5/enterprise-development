@@ -57,15 +57,7 @@ public class ModelGenerationService(IRepository<ModelGeneration> modelGeneration
             Year = modelGeneration.Year,
             EngineVolume = modelGeneration.EngineVolume,
             TransmissionType = modelGeneration.TransmissionType,
-            Model = new CarModelResponseDto
-            {
-                Id = modelGeneration.Model.Id,
-                Name = modelGeneration.Model.Name,
-                DriveType = modelGeneration.Model.DriveType,
-                SeatCount = modelGeneration.Model.SeatCount,
-                BodyType = modelGeneration.Model.BodyType,
-                CarClass = modelGeneration.Model.CarClass
-            },
+            Model = CarModelService.MapToResponseDto(modelGeneration.Model),
             RentalCostPerHour = modelGeneration.RentalCostPerHour
         };
     }

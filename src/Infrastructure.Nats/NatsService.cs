@@ -1,8 +1,9 @@
+using System.Text;
 using System.Text.Json;
 using Application.Service;
+using Microsoft.Extensions.Logging;
 using NATS.Client;
 using Polly;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Nats;
 
@@ -23,14 +24,14 @@ public class NatsService : INatsService
     {
         _logger = logger;
         _natsUrl = natsUrl;
-        
+
         // Настройка политики ретраев с экспоненциальной задержкой
         _retryPolicy = Policy
             .Handle<NATSException>()
             .Or<TimeoutException>()
             .WaitAndRetryAsync(
                 retryCount: 5,
-                sleepDurationProvider: retryAttempt => 
+                sleepDurationProvider: retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                 onRetry: (exception, timeSpan, retryCount, context) =>
                 {
@@ -39,7 +40,7 @@ public class NatsService : INatsService
                         "Retry {RetryCount} for NATS connection after {TimeSpan} seconds",
                         retryCount, timeSpan.TotalSeconds);
                 });
-        
+
         InitializeConnection();
     }
 
@@ -68,7 +69,7 @@ public class NatsService : INatsService
                 {
                     _logger.LogInformation("NATS connection closed");
                 };
-                
+
                 _connection = new ConnectionFactory().CreateConnection(opts);
                 _logger.LogInformation("Connected to NATS at {NatsUrl}", _natsUrl);
             });
@@ -80,13 +81,13 @@ public class NatsService : INatsService
     /// </summary>
     public async Task PublishRentalCreatedAsync(int rentalId, int carId, int clientId, DateTime rentalStart, int rentalHours)
     {
-        await _retryPolicy.ExecuteAsync(async () =>
+        await _retryPolicy.ExecuteAsync(() => Task.Run(() =>
         {
             try
             {
-                if (_connection == null)
+                if (_connection == null || _connection.State != ConnState.CONNECTED)
                 {
-                    throw new InvalidOperationException("NATS connection is not initialized");
+                    throw new InvalidOperationException("NATS connection is not initialized or connected");
                 }
 
                 var message = new
@@ -101,8 +102,8 @@ public class NatsService : INatsService
                 };
 
                 var jsonMessage = JsonSerializer.Serialize(message);
-                _connection.Publish("rentals.created", System.Text.Encoding.UTF8.GetBytes(jsonMessage));
-                
+                _connection.Publish("rentals.created", Encoding.UTF8.GetBytes(jsonMessage));
+
                 _logger.LogInformation("Published RentalCreated event for rental {RentalId}", rentalId);
             }
             catch (Exception ex)
@@ -110,7 +111,7 @@ public class NatsService : INatsService
                 _logger.LogError(ex, "Error publishing RentalCreated event");
                 throw;
             }
-        });
+        }));
     }
 
     /// <summary>
@@ -118,13 +119,13 @@ public class NatsService : INatsService
     /// </summary>
     public async Task PublishRentalEndedAsync(int rentalId, DateTime endTime)
     {
-        await _retryPolicy.ExecuteAsync(async () =>
+        await _retryPolicy.ExecuteAsync(() => Task.Run(() =>
         {
             try
             {
-                if (_connection == null)
+                if (_connection == null || _connection.State != ConnState.CONNECTED)
                 {
-                    throw new InvalidOperationException("NATS connection is not initialized");
+                    throw new InvalidOperationException("NATS connection is not initialized or connected");
                 }
 
                 var message = new
@@ -136,8 +137,8 @@ public class NatsService : INatsService
                 };
 
                 var jsonMessage = JsonSerializer.Serialize(message);
-                _connection.Publish("rentals.ended", System.Text.Encoding.UTF8.GetBytes(jsonMessage));
-                
+                _connection.Publish("rentals.ended", Encoding.UTF8.GetBytes(jsonMessage));
+
                 _logger.LogInformation("Published RentalEnded event for rental {RentalId}", rentalId);
             }
             catch (Exception ex)
@@ -145,6 +146,6 @@ public class NatsService : INatsService
                 _logger.LogError(ex, "Error publishing RentalEnded event");
                 throw;
             }
-        });
+        }));
     }
 }

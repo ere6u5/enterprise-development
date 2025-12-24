@@ -50,23 +50,7 @@ public class CarService(IRepository<Car> carRepository, IRepository<ModelGenerat
         return new CarResponseDto
         {
             Id = car.Id,
-            ModelGeneration = new ModelGenerationResponseDto
-            {
-                Id = car.ModelGeneration.Id,
-                Year = car.ModelGeneration.Year,
-                EngineVolume = car.ModelGeneration.EngineVolume,
-                TransmissionType = car.ModelGeneration.TransmissionType,
-                Model = new CarModelResponseDto
-                {
-                    Id = car.ModelGeneration.Model.Id,
-                    Name = car.ModelGeneration.Model.Name,
-                    DriveType = car.ModelGeneration.Model.DriveType,
-                    SeatCount = car.ModelGeneration.Model.SeatCount,
-                    BodyType = car.ModelGeneration.Model.BodyType,
-                    CarClass = car.ModelGeneration.Model.CarClass
-                },
-                RentalCostPerHour = car.ModelGeneration.RentalCostPerHour
-            },
+            ModelGeneration = ModelGenerationService.MapToResponseDto(car.ModelGeneration),
             LicensePlate = car.LicensePlate,
             Color = car.Color
         };

@@ -43,6 +43,21 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : 
     {
         base.OnModelCreating(modelBuilder);
 
+        // Конфигурация именования в snake_case
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            var tableName = entity.GetTableName();
+            if (!string.IsNullOrEmpty(tableName))
+            {
+                entity.SetTableName(ToSnakeCase(tableName));
+            }
+
+            foreach (var property in entity.GetProperties())
+            {
+                property.SetColumnName(ToSnakeCase(property.Name));
+            }
+        }
+
         modelBuilder.Entity<CarModel>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -66,7 +81,7 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : 
             entity.HasOne(e => e.Model)
                   .WithMany()
                   .HasForeignKey(e => e.ModelId)
-                  .OnDelete(DeleteBehavior.Cascade); // ИЗМЕНЕНО с Restrict на Cascade
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Car>(entity =>
@@ -76,11 +91,11 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : 
             entity.Property(e => e.Color).IsRequired().HasMaxLength(50);
 
             entity.HasIndex(e => e.LicensePlate).IsUnique();
-            
+
             entity.HasOne(e => e.ModelGeneration)
                   .WithMany()
                   .HasForeignKey(e => e.ModelGenerationId)
-                  .OnDelete(DeleteBehavior.Cascade); // ИЗМЕНЕНО
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Client>(entity =>
@@ -102,23 +117,23 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : 
             entity.HasOne(e => e.Car)
                   .WithMany()
                   .HasForeignKey(e => e.CarId)
-                  .OnDelete(DeleteBehavior.Cascade); // ИЗМЕНЕНО
+                  .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(e => e.Client)
                   .WithMany()
                   .HasForeignKey(e => e.ClientId)
-                  .OnDelete(DeleteBehavior.Cascade); // ИЗМЕНЕНО
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 
     private static string ToSnakeCase(string input)
     {
         if (string.IsNullOrEmpty(input)) return input;
-        
+
         return string.Concat(
-            input.Select((c, i) => 
-                i > 0 && char.IsUpper(c) 
-                    ? "_" + char.ToLower(c) 
+            input.Select((c, i) =>
+                i > 0 && char.IsUpper(c)
+                    ? "_" + char.ToLower(c)
                     : char.ToLower(c).ToString()))
             .ToLower();
     }
