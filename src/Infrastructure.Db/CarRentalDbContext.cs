@@ -6,16 +6,8 @@ namespace Infrastructure.Db;
 /// <summary>
 /// Контекст базы данных для системы аренды автомобилей
 /// </summary>
-public class CarRentalDbContext : DbContext
+public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : DbContext(options)
 {
-    /// <summary>
-    /// Конструктор контекста базы данных
-    /// </summary>
-    /// <param name="options">Параметры конфигурации DbContext</param>
-    public CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) 
-        : base(options)
-    {
-    }
 
     // Наборы данных (таблицы)
 

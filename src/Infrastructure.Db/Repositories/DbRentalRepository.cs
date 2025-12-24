@@ -7,17 +7,9 @@ namespace Infrastructure.Db.Repositories;
 /// <summary>
 /// Репозиторий для работы с арендами в базе данных
 /// </summary>
-public class DbRentalRepository : IRepository<Rental>
+public class DbRentalRepository(CarRentalDbContext context) : IRepository<Rental>
 {
-    private readonly CarRentalDbContext _context;
-
-    /// <summary>
-    /// Конструктор репозитория аренд
-    /// </summary>
-    public DbRentalRepository(CarRentalDbContext context)
-    {
-        _context = context;
-    }
+    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание новой аренды

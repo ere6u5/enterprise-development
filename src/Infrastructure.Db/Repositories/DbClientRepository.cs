@@ -7,17 +7,9 @@ namespace Infrastructure.Db.Repositories;
 /// <summary>
 /// Репозиторий для работы с клиентами в базе данных
 /// </summary>
-public class DbClientRepository : IRepository<Client>
+public class DbClientRepository(CarRentalDbContext context) : IRepository<Client>
 {
-    private readonly CarRentalDbContext _context;
-
-    /// <summary>
-    /// Конструктор репозитория клиентов
-    /// </summary>
-    public DbClientRepository(CarRentalDbContext context)
-    {
-        _context = context;
-    }
+    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание нового клиента

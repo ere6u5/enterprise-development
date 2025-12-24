@@ -7,17 +7,9 @@ namespace Infrastructure.Db.Repositories;
 /// <summary>
 /// Репозиторий для работы с поколениями моделей в базе данных
 /// </summary>
-public class DbModelGenerationRepository : IRepository<ModelGeneration>
+public class DbModelGenerationRepository(CarRentalDbContext context) : IRepository<ModelGeneration>
 {
-    private readonly CarRentalDbContext _context;
-
-    /// <summary>
-    /// Конструктор репозитория поколений моделей
-    /// </summary>
-    public DbModelGenerationRepository(CarRentalDbContext context)
-    {
-        _context = context;
-    }
+    private readonly CarRentalDbContext _context = context;
 
     /// <summary>
     /// Создание нового поколения модели
