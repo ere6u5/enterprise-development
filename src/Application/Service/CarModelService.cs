@@ -1,4 +1,4 @@
-using Application.DTO;
+using Application.Dto;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -11,7 +11,7 @@ namespace Application.Service;
 public class CarModelService(IRepository<CarModel> carModelRepository) : ICarModelService
 {
     /// <summary>
-    /// Маппинг DTO в доменную модель
+    /// Маппинг Dto в доменную модель
     /// </summary>
     private static CarModel MapToDomain(CarModelDto entity)
     {
@@ -27,7 +27,7 @@ public class CarModelService(IRepository<CarModel> carModelRepository) : ICarMod
     }
     
     /// <summary>
-    /// Маппинг доменной модели в DTO
+    /// Маппинг доменной модели в Dto
     /// </summary>
     private static CarModelDto MapToDto(CarModel carModel)
     {
@@ -42,7 +42,7 @@ public class CarModelService(IRepository<CarModel> carModelRepository) : ICarMod
     }
     
     /// <summary>
-    /// Маппинг доменной модели в Response DTO
+    /// Маппинг доменной модели в Response Dto
     /// </summary>
     private static CarModelResponseDto MapToResponseDto(CarModel carModel)
     {

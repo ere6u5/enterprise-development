@@ -1,10 +1,10 @@
 using Domain.Enums;
 using System.Text.Json.Serialization;
 
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// Response DTO для модели автомобиля
+/// Response Dto для модели автомобиля
 /// </summary>
 public class CarModelResponseDto
 {

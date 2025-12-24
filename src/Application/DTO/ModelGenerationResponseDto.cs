@@ -1,10 +1,10 @@
 using Domain.Enums;
 using System.Text.Json.Serialization;
 
-namespace Application.DTO;
+namespace Application.Dto;
 
 /// <summary>
-/// Response DTO для поколения модели
+/// Response Dto для поколения модели
 /// </summary>
 public class ModelGenerationResponseDto
 {
