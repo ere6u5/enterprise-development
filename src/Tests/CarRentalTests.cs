@@ -93,14 +93,14 @@ public class CarRentalTests(CarRentalFixture fixture) : IClassFixture<CarRentalF
         // Assert
         // Проверяем только те автомобили, которые были в аренде
         // В тестовых данных автомобили 1-5 арендованы по 2 раза, 6-7 не арендованы
-        for (int carId = 1; carId <= 5; carId++)
+        for (var carId = 1; carId <= 5; carId++)
         {
             Assert.True(rentalCounts.ContainsKey(carId), $"Car {carId} should have rental count");
             Assert.Equal(2, rentalCounts[carId]);
         }
         
         // Автомобили 6 и 7 не должны быть в списке аренд
-        for (int carId = 6; carId <= 7; carId++)
+        for (var carId = 6; carId <= 7; carId++)
         {
             Assert.False(rentalCounts.ContainsKey(carId), $"Car {carId} should not have rental count");
         }

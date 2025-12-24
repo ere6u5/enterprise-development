@@ -177,7 +177,12 @@ public class DataSeeder
             ModelGeneration = ModelGenerations[1],
             LicensePlate = "G901MN",
             Color = "Black"
-        }
+        },
+        new() { Id = 8, ModelGenerationId = 3, ModelGeneration = ModelGenerations[2], LicensePlate = "H234NO", Color = "Green" },
+        new() { Id = 9, ModelGenerationId = 4, ModelGeneration = ModelGenerations[3], LicensePlate = "I567PQ", Color = "Gray" },
+        new() { Id = 10, ModelGenerationId = 5, ModelGeneration = ModelGenerations[4], LicensePlate = "J890RS", Color = "Blue" },
+        new() { Id = 11, ModelGenerationId = 1, ModelGeneration = ModelGenerations[0], LicensePlate = "K123ST", Color = "White" },
+        new() { Id = 12, ModelGenerationId = 2, ModelGeneration = ModelGenerations[1], LicensePlate = "L456UV", Color = "Red" }
     ];
 
     /// <summary>
@@ -219,7 +224,12 @@ public class DataSeeder
             DriverLicenseNumber = "5678901234",
             FullName = "Smirnova Olga Dmitrievna",
             BirthDate = new DateOnly(1995, 7, 5)
-        }
+        },
+        new() { Id = 6, DriverLicenseNumber = "6789012345", FullName = "Fedorov Alexey Nikolaevich", BirthDate = new DateOnly(1987, 9, 18) },
+        new() { Id = 7, DriverLicenseNumber = "7890123456", FullName = "Nikolaeva Elena Viktorovna", BirthDate = new DateOnly(1993, 12, 3) },
+        new() { Id = 8, DriverLicenseNumber = "8901234567", FullName = "Vasiliev Dmitry Olegovich", BirthDate = new DateOnly(1991, 4, 25) },
+        new() { Id = 9, DriverLicenseNumber = "9012345678", FullName = "Pavlova Anna Ivanovna", BirthDate = new DateOnly(1994, 6, 30) },
+        new() { Id = 10, DriverLicenseNumber = "0123456789", FullName = "Mikhailov Sergey Petrovich", BirthDate = new DateOnly(1989, 2, 14) }
     ];
 
     /// <summary>
