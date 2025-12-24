@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Infrastructure.Nats\Infrastructure.Nats.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

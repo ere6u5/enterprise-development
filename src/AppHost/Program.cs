@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Hosting;
-
-// var builder = DistributedApplication.CreateBuilder(args);
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Добавляем MySQL базу данных

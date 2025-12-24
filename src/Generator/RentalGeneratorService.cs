@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NATS.Client;
-using Polly;
+using Contracts;
 
 namespace Generator;
 
@@ -77,13 +77,12 @@ public class RentalGeneratorService : IHostedService
             for (var i = 0; i < count; i++)
             {
                 // Генерируем случайные данные
-                var rentalDto = new
-                {
-                    CarId = _faker.Random.Int(1, 12),
-                    ClientId = _faker.Random.Int(1, 10),
-                    RentalStart = _faker.Date.Between(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7)),
-                    RentalHours = _faker.Random.Int(1, 72)
-                };
+                var rentalMessage = new RentalGeneratedMessage(
+                    CarId: _faker.Random.Int(1, 12),
+                    ClientId: _faker.Random.Int(1, 10),
+                    RentalStart: _faker.Date.Between(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7)),
+                    RentalHours: _faker.Random.Int(1, 72)
+                );
 
                 // Отправляем через NATS
                 if (_natsConnection != null && _natsConnection.State == ConnState.CONNECTED)
@@ -91,7 +90,7 @@ public class RentalGeneratorService : IHostedService
                     var json = JsonSerializer.Serialize(new
                     {
                         EventType = "RentalGenerated",
-                        Data = rentalDto,
+                        Data = rentalMessage,
                         Timestamp = DateTime.UtcNow
                     });
 
@@ -99,19 +98,19 @@ public class RentalGeneratorService : IHostedService
                         Encoding.UTF8.GetBytes(json));
 
                     _logger.LogDebug("Published rental to NATS: Car {CarId}, Client {ClientId}",
-                        rentalDto.CarId, rentalDto.ClientId);
+                        rentalMessage.CarId, rentalMessage.ClientId);
                 }
                 else
                 {
                     // Fallback: отправляем через HTTP если NATS не доступен
-                    var json = JsonSerializer.Serialize(rentalDto);
+                    var json = JsonSerializer.Serialize(rentalMessage);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await _httpClient.PostAsync($"{_apiUrl}/rental", content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         _logger.LogDebug("Created rental via HTTP: Car {CarId}, Client {ClientId}",
-                            rentalDto.CarId, rentalDto.ClientId);
+                            rentalMessage.CarId, rentalMessage.ClientId);
                     }
                 }
 

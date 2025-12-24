@@ -4,6 +4,7 @@ using Application.Service;
 using Microsoft.Extensions.Logging;
 using NATS.Client;
 using Polly;
+using Contracts;
 
 namespace Infrastructure.Nats;
 
@@ -90,16 +91,14 @@ public class NatsService : INatsService
                     throw new InvalidOperationException("NATS connection is not initialized or connected");
                 }
 
-                var message = new
-                {
-                    EventType = "RentalCreated",
-                    RentalId = rentalId,
-                    CarId = carId,
-                    ClientId = clientId,
-                    RentalStart = rentalStart,
-                    RentalHours = rentalHours,
-                    Timestamp = DateTime.UtcNow
-                };
+                var message = new RentalCreatedMessage(
+                    rentalId,
+                    carId,
+                    clientId,
+                    rentalStart,
+                    rentalHours,
+                    DateTime.UtcNow
+                );
 
                 var jsonMessage = JsonSerializer.Serialize(message);
                 _connection.Publish("rentals.created", Encoding.UTF8.GetBytes(jsonMessage));
@@ -128,13 +127,11 @@ public class NatsService : INatsService
                     throw new InvalidOperationException("NATS connection is not initialized or connected");
                 }
 
-                var message = new
-                {
-                    EventType = "RentalEnded",
-                    RentalId = rentalId,
-                    EndTime = endTime,
-                    Timestamp = DateTime.UtcNow
-                };
+                var message = new RentalEndedMessage(
+                    rentalId,
+                    endTime,
+                    DateTime.UtcNow
+                );
 
                 var jsonMessage = JsonSerializer.Serialize(message);
                 _connection.Publish("rentals.ended", Encoding.UTF8.GetBytes(jsonMessage));

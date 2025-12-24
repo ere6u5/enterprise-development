@@ -228,7 +228,7 @@ dotnet test
 cd src/Api
 dotnet run
 ```
-6. Открыть Swagger UI в браузере: `http://localhost:5212/swagger`
+6. Открыть Swagger UI в браузере: `http://localhost:5000/swagger`
 
 ### Этап 2: REST API (лабораторная 2)
 
